@@ -25,7 +25,7 @@ export default {
     'react-dnd',
     'prop-types',
     'react-dnd-html5-backend',
-    'frontend-collective-react-dnd-scrollzone',
+    'react-beautifull-dnd-scrollzone',
     'react-virtualized',
     'lodash.isequal',
   ],
