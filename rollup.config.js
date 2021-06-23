@@ -25,7 +25,7 @@ export default {
     'react-dnd',
     'prop-types',
     'react-dnd-html5-backend',
-    'react-beautifull-dnd-scrollzone',
+    '@nosferatu500/react-dnd-scrollzone',
     'react-virtualized',
     'lodash.isequal',
   ],

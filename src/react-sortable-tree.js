@@ -9,7 +9,7 @@ import withScrolling, {
   createHorizontalStrength,
   createScrollingComponent,
   createVerticalStrength,
-} from 'react-beautifull-dnd-scrollzone';
+} from '@nosferatu500/react-dnd-scrollzone';
 import 'react-virtualized/styles.css';
 import NodeRendererDefault from './node-renderer-default';
 import PlaceholderRendererDefault from './placeholder-renderer-default';
