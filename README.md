@@ -1,3 +1,12 @@
+# Note
+
+I decide to made the fork because it looks like the original author is not really interested in fixing any issues founded by community or even applying any community patches.
+
+## About issue
+I made the fork just for myself to solve my own tasks. If you are still using the original package and find any issues, you can send me a PR with a solution.
+I have no plans to fix all the issues I find. I will only do this if the problem is blocking my work. Simply because I do not have time to solve all the issues I have found.
+
+
 <div align="center">
   <img src="https://cloud.githubusercontent.com/assets/4413963/18860410/26f64de8-84b8-11e6-9284-350308eed30a.png"/>
 </div>
