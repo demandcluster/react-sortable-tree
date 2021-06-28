@@ -89,7 +89,7 @@ export default class DndManager {
 
       blocksOffset = Math.round(
         (direction * monitor.getDifferenceFromInitialOffset().x) /
-          dropTargetProps.scaffoldBlockPxWidth
+        dropTargetProps.scaffoldBlockPxWidth
       );
     }
 
@@ -235,9 +235,14 @@ export default class DndManager {
         // throttle `dragHover` work to available animation frames
         cancelAnimationFrame(this.rafId);
         this.rafId = requestAnimationFrame(() => {
+          const item = monitor.getItem()
+          // skip if drag already ended before the animation frame
+          if (!item || !monitor.isOver()) {
+            return;
+          }
           this.dragHover({
             node: draggedNode,
-            path: monitor.getItem().path,
+            path: item.path,
             minimumTreeIndex: dropTargetProps.listIndex,
             depth: targetDepth,
           });
