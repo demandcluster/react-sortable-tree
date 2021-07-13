@@ -44,10 +44,10 @@ Install `react-sortable-tree` using npm.
 
 ```sh
 # NPM
-npm install react-sortable-tree --save
+npm install @nosferatu500/react-sortable-tree --save
 
 # YARN
-yarn add react-sortable-tree
+yarn add nosferatu500/react-sortable-tree
 ```
 
 ES6 and CommonJS builds are available with each distribution.
