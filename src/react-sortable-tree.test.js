@@ -5,9 +5,9 @@ import renderer from 'react-test-renderer';
 import { mount } from 'enzyme';
 import { List } from 'react-virtualized';
 import { DndProvider, DndContext } from 'react-dnd';
-import TestBackend from 'react-dnd-test-backend';
-import HTML5Backend from 'react-dnd-html5-backend';
-import TouchBackend from 'react-dnd-touch-backend';
+import { TestBackend } from 'react-dnd-test-backend';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
 import SortableTree, {
   SortableTreeWithoutDndContext,
 } from './react-sortable-tree';
@@ -17,7 +17,7 @@ import DefaultNodeRenderer from './node-renderer-default';
 describe('<SortableTree />', () => {
   it('should render tree correctly', () => {
     const tree = renderer
-      .create(<SortableTree treeData={[{}]} onChange={() => {}} />, {
+      .create(<SortableTree treeData={[{}]} onChange={() => { }} />, {
         createNodeMock: () => ({}),
       })
       .toJSON();
@@ -29,15 +29,15 @@ describe('<SortableTree />', () => {
     let wrapper;
 
     // No nodes
-    wrapper = mount(<SortableTree treeData={[]} onChange={() => {}} />);
+    wrapper = mount(<SortableTree treeData={[]} onChange={() => { }} />);
     expect(wrapper.find(TreeNode).length).toEqual(0);
 
     // Single node
-    wrapper = mount(<SortableTree treeData={[{}]} onChange={() => {}} />);
+    wrapper = mount(<SortableTree treeData={[{}]} onChange={() => { }} />);
     expect(wrapper.find(TreeNode).length).toEqual(1);
 
     // Two nodes
-    wrapper = mount(<SortableTree treeData={[{}, {}]} onChange={() => {}} />);
+    wrapper = mount(<SortableTree treeData={[{}, {}]} onChange={() => { }} />);
     expect(wrapper.find(TreeNode).length).toEqual(2);
   });
 
@@ -48,7 +48,7 @@ describe('<SortableTree />', () => {
     wrapper = mount(
       <SortableTree
         treeData={[{ expanded: true, children: [{}] }]}
-        onChange={() => {}}
+        onChange={() => { }}
       />
     );
     expect(wrapper.find(TreeNode).length).toEqual(2);
@@ -59,7 +59,7 @@ describe('<SortableTree />', () => {
         treeData={[
           { expanded: true, children: [{ expanded: true, children: [{}] }] },
         ]}
-        onChange={() => {}}
+        onChange={() => { }}
       />
     );
     expect(wrapper.find(TreeNode).length).toEqual(3);
@@ -71,7 +71,7 @@ describe('<SortableTree />', () => {
           { expanded: true, children: [{ expanded: true, children: [{}] }] },
           { expanded: true, children: [{ expanded: true, children: [{}] }] },
         ]}
-        onChange={() => {}}
+        onChange={() => { }}
       />
     );
     expect(wrapper.find(TreeNode).length).toEqual(6);
@@ -84,7 +84,7 @@ describe('<SortableTree />', () => {
     wrapper = mount(
       <SortableTree
         treeData={[{ expanded: false, children: [{}] }]}
-        onChange={() => {}}
+        onChange={() => { }}
       />
     );
     expect(wrapper.find(TreeNode).length).toEqual(1);
@@ -95,7 +95,7 @@ describe('<SortableTree />', () => {
         treeData={[
           { expanded: false, children: [{ expanded: false, children: [{}] }] },
         ]}
-        onChange={() => {}}
+        onChange={() => { }}
       />
     );
     expect(wrapper.find(TreeNode).length).toEqual(1);
@@ -107,7 +107,7 @@ describe('<SortableTree />', () => {
           { expanded: true, children: [{ expanded: false, children: [{}] }] },
           { expanded: false, children: [{ expanded: false, children: [{}] }] },
         ]}
-        onChange={() => {}}
+        onChange={() => { }}
       />
     );
     expect(wrapper.find(TreeNode).length).toEqual(3);
@@ -143,7 +143,7 @@ describe('<SortableTree />', () => {
     const wrapper = mount(
       <SortableTree
         treeData={[{ title: 'a' }]}
-        onChange={() => {}}
+        onChange={() => { }}
         style={{ borderWidth: 42 }}
         className="extra-classy"
       />
@@ -157,7 +157,7 @@ describe('<SortableTree />', () => {
     const wrapper = mount(
       <SortableTree
         treeData={[{ title: 'a' }]}
-        onChange={() => {}}
+        onChange={() => { }}
         innerStyle={{ borderWidth: 42 }}
       />
     );
@@ -172,7 +172,7 @@ describe('<SortableTree />', () => {
     const wrapper = mount(
       <SortableTree
         treeData={[{ title: 'a' }, { title: 'b', extraHeight: 2 }]}
-        onChange={() => {}}
+        onChange={() => { }}
         rowHeight={12}
       />
     );
@@ -190,7 +190,7 @@ describe('<SortableTree />', () => {
     const virtualized = mount(
       <SortableTree
         treeData={[{ title: 'a' }, { title: 'b' }]}
-        onChange={() => {}}
+        onChange={() => { }}
         isVirtualized
       />
     );
@@ -200,7 +200,7 @@ describe('<SortableTree />', () => {
     const notVirtualized = mount(
       <SortableTree
         treeData={[{ title: 'a' }, { title: 'b' }]}
-        onChange={() => {}}
+        onChange={() => { }}
         isVirtualized={false}
       />
     );
@@ -212,7 +212,7 @@ describe('<SortableTree />', () => {
     const wrapper = mount(
       <SortableTree
         treeData={[{ title: 'a' }]}
-        onChange={() => {}}
+        onChange={() => { }}
         scaffoldBlockPxWidth={12}
       />
     );
@@ -225,7 +225,7 @@ describe('<SortableTree />', () => {
     const wrapper = mount(
       <SortableTree
         treeData={[{ title }]}
-        onChange={() => {}}
+        onChange={() => { }}
         generateNodeProps={({ node }) => ({ buttons: [node.title] })}
       />
     );
@@ -271,7 +271,7 @@ describe('<SortableTree />', () => {
     const wrapper = mount(
       <SortableTree
         treeData={[{ title: 'a' }]}
-        onChange={() => {}}
+        onChange={() => { }}
         nodeContentRenderer={FakeNode}
       />
     );
@@ -287,7 +287,7 @@ describe('<SortableTree />', () => {
         searchQuery="b"
         searchFocusOffset={0}
         searchFinishCallback={searchFinishCallback}
-        onChange={() => {}}
+        onChange={() => { }}
       />
     );
 
@@ -305,7 +305,7 @@ describe('<SortableTree />', () => {
           { title: 'a', children: [{ title: 'be' }] },
         ]}
         searchQuery="b"
-        onChange={() => {}}
+        onChange={() => { }}
       />
     );
 
@@ -408,7 +408,7 @@ describe('<SortableTree />', () => {
         <DndProvider backend={HTML5Backend}>
           <SortableTreeWithoutDndContext
             treeData={[{ title: 'a' }]}
-            onChange={() => {}}
+            onChange={() => { }}
           />
         </DndProvider>
       )
@@ -418,7 +418,7 @@ describe('<SortableTree />', () => {
         <DndProvider backend={TouchBackend}>
           <SortableTreeWithoutDndContext
             treeData={[{ title: 'a' }]}
-            onChange={() => {}}
+            onChange={() => { }}
           />
         </DndProvider>
       )
@@ -440,7 +440,7 @@ describe('<SortableTree />', () => {
         <SortableTreeWithoutDndContext
           treeData={treeData}
           onDragStateChanged={onDragStateChanged}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </DndProvider>
     );
