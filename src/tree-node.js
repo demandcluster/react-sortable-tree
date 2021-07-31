@@ -1,7 +1,7 @@
-import React, { Component, Children, cloneElement } from 'react';
-import PropTypes from 'prop-types';
-import classnames from './utils/classnames';
-import './tree-node.css';
+import React, { Component, Children, cloneElement } from 'react'
+import PropTypes from 'prop-types'
+import classnames from './utils/classnames'
+import './tree-node.css'
 
 class TreeNode extends Component {
   render() {
@@ -24,15 +24,15 @@ class TreeNode extends Component {
       path, // Delete from otherProps
       rowDirection,
       ...otherProps
-    } = this.props;
+    } = this.props
 
-    const rowDirectionClass = rowDirection === 'rtl' ? 'rst__rtl' : null;
+    const rowDirectionClass = rowDirection === 'rtl' ? 'rst__rtl' : null
 
     // Construct the scaffold representing the structure of the tree
-    const scaffoldBlockCount = lowerSiblingCounts.length;
-    const scaffold = [];
+    const scaffoldBlockCount = lowerSiblingCounts.length
+    const scaffold = []
     lowerSiblingCounts.forEach((lowerSiblingCount, i) => {
-      let lineClass = '';
+      let lineClass = ''
       if (lowerSiblingCount > 0) {
         // At this level in the tree, the nodes had sibling nodes further down
 
@@ -43,8 +43,7 @@ class TreeNode extends Component {
           // |  +--+
           // |  |  |
           // +--+--+
-          lineClass =
-            'rst__lineHalfHorizontalRight rst__lineHalfVerticalBottom';
+          lineClass = 'rst__lineHalfHorizontalRight rst__lineHalfVerticalBottom'
         } else if (i === scaffoldBlockCount - 1) {
           // Last scaffold block in the row, right before the row content
           // +--+--+
@@ -52,7 +51,7 @@ class TreeNode extends Component {
           // |  +--+
           // |  |  |
           // +--+--+
-          lineClass = 'rst__lineHalfHorizontalRight rst__lineFullVertical';
+          lineClass = 'rst__lineHalfHorizontalRight rst__lineFullVertical'
         } else {
           // Simply connecting the line extending down to the next sibling on this level
           // +--+--+
@@ -60,7 +59,7 @@ class TreeNode extends Component {
           // |  |  |
           // |  |  |
           // +--+--+
-          lineClass = 'rst__lineFullVertical';
+          lineClass = 'rst__lineFullVertical'
         }
       } else if (listIndex === 0) {
         // Top-left corner of the tree, but has no siblings
@@ -69,7 +68,7 @@ class TreeNode extends Component {
         // |  +--+
         // |     |
         // +-----+
-        lineClass = 'rst__lineHalfHorizontalRight';
+        lineClass = 'rst__lineHalfHorizontalRight'
       } else if (i === scaffoldBlockCount - 1) {
         // The last or only node in this level of the tree
         // +--+--+
@@ -77,7 +76,7 @@ class TreeNode extends Component {
         // |  +--+
         // |     |
         // +-----+
-        lineClass = 'rst__lineHalfVerticalTop rst__lineHalfHorizontalRight';
+        lineClass = 'rst__lineHalfVerticalTop rst__lineHalfHorizontalRight'
       }
 
       scaffold.push(
@@ -86,37 +85,37 @@ class TreeNode extends Component {
           style={{ width: scaffoldBlockPxWidth }}
           className={classnames('rst__lineBlock', lineClass, rowDirectionClass)}
         />
-      );
+      )
 
       if (treeIndex !== listIndex && i === swapDepth) {
         // This row has been shifted, and is at the depth of
         // the line pointing to the new destination
-        let highlightLineClass = '';
+        let highlightLineClass = ''
 
         if (listIndex === swapFrom + swapLength - 1) {
           // This block is on the bottom (target) line
           // This block points at the target block (where the row will go when released)
-          highlightLineClass = 'rst__highlightBottomLeftCorner';
+          highlightLineClass = 'rst__highlightBottomLeftCorner'
         } else if (treeIndex === swapFrom) {
           // This block is on the top (source) line
-          highlightLineClass = 'rst__highlightTopLeftCorner';
+          highlightLineClass = 'rst__highlightTopLeftCorner'
         } else {
           // This block is between the bottom and top
-          highlightLineClass = 'rst__highlightLineVertical';
+          highlightLineClass = 'rst__highlightLineVertical'
         }
 
-        let style;
+        let style
         if (rowDirection === 'rtl') {
           style = {
             width: scaffoldBlockPxWidth,
             right: scaffoldBlockPxWidth * i,
-          };
+          }
         } else {
           // Default ltr
           style = {
             width: scaffoldBlockPxWidth,
             left: scaffoldBlockPxWidth * i,
-          };
+          }
         }
 
         scaffold.push(
@@ -130,27 +129,26 @@ class TreeNode extends Component {
               rowDirectionClass
             )}
           />
-        );
+        )
       }
-    });
+    })
 
-    let style;
+    let style
     if (rowDirection === 'rtl') {
-      style = { right: scaffoldBlockPxWidth * scaffoldBlockCount };
+      style = { right: scaffoldBlockPxWidth * scaffoldBlockCount }
     } else {
       // Default ltr
-      style = { left: scaffoldBlockPxWidth * scaffoldBlockCount };
+      style = { left: scaffoldBlockPxWidth * scaffoldBlockCount }
     }
 
     return connectDropTarget(
       <div
         {...otherProps}
-        className={classnames('rst__node', rowDirectionClass)}
-      >
+        className={classnames('rst__node', rowDirectionClass)}>
         {scaffold}
 
         <div className="rst__nodeContent" style={style}>
-          {Children.map(children, child =>
+          {Children.map(children, (child) =>
             cloneElement(child, {
               isOver,
               canDrop,
@@ -159,7 +157,7 @@ class TreeNode extends Component {
           )}
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -170,7 +168,7 @@ TreeNode.defaultProps = {
   canDrop: false,
   draggedNode: null,
   rowDirection: 'ltr',
-};
+}
 
 TreeNode.propTypes = {
   treeIndex: PropTypes.number.isRequired,
@@ -199,6 +197,6 @@ TreeNode.propTypes = {
 
   // rtl support
   rowDirection: PropTypes.string,
-};
+}
 
-export default TreeNode;
+export default TreeNode

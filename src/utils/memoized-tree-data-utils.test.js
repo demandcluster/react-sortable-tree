@@ -1,6 +1,6 @@
-import { insertNode } from './tree-data-utils';
+import { insertNode } from './tree-data-utils'
 
-import { memoizedInsertNode } from './memoized-tree-data-utils';
+import { memoizedInsertNode } from './memoized-tree-data-utils'
 
 describe('insertNode', () => {
   it('should handle empty data', () => {
@@ -10,19 +10,19 @@ describe('insertNode', () => {
       minimumTreeIndex: 0,
       newNode: {},
       getNodeKey: ({ treeIndex }) => treeIndex,
-    };
+    }
 
-    let firstCall = insertNode(params);
-    let secondCall = insertNode(params);
-    expect(firstCall === secondCall).toEqual(false);
+    let firstCall = insertNode(params)
+    let secondCall = insertNode(params)
+    expect(firstCall === secondCall).toEqual(false)
 
-    firstCall = memoizedInsertNode(params);
-    secondCall = memoizedInsertNode(params);
-    expect(firstCall === secondCall).toEqual(true);
+    firstCall = memoizedInsertNode(params)
+    secondCall = memoizedInsertNode(params)
+    expect(firstCall === secondCall).toEqual(true)
 
     expect(
       memoizedInsertNode(params) ===
         memoizedInsertNode({ ...params, treeData: [{}] })
-    ).toEqual(false);
-  });
-});
+    ).toEqual(false)
+  })
+})

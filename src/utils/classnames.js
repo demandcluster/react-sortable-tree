@@ -17,5 +17,5 @@ export default function classnames(...classes) {
   // Boolean(null) === false;
   // Boolean(0) === false;
   // Boolean("classname") === true;
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(' ')
 }

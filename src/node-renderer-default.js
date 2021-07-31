@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { isDescendant } from './utils/tree-data-utils';
-import classnames from './utils/classnames';
-import './node-renderer-default.css';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { isDescendant } from './utils/tree-data-utils'
+import classnames from './utils/classnames'
+import './node-renderer-default.css'
 
 class NodeRendererDefault extends Component {
   render() {
@@ -31,12 +31,12 @@ class NodeRendererDefault extends Component {
       parentNode, // Needed for dndManager
       rowDirection,
       ...otherProps
-    } = this.props;
-    const nodeTitle = title || node.title;
-    const nodeSubtitle = subtitle || node.subtitle;
-    const rowDirectionClass = rowDirection === 'rtl' ? 'rst__rtl' : null;
+    } = this.props
+    const nodeTitle = title || node.title
+    const nodeSubtitle = subtitle || node.subtitle
+    const rowDirectionClass = rowDirection === 'rtl' ? 'rst__rtl' : null
 
-    let handle;
+    let handle
     if (canDrag) {
       if (typeof node.children === 'function' && node.expanded) {
         // Show a loading symbol on the handle when the children are expanded
@@ -56,21 +56,21 @@ class NodeRendererDefault extends Component {
               ))}
             </div>
           </div>
-        );
+        )
       } else {
         // Show the handle used to initiate a drag-and-drop
         handle = connectDragSource(<div className="rst__moveHandle" />, {
           dropEffect: 'copy',
-        });
+        })
       }
     }
 
-    const isDraggedDescendant = draggedNode && isDescendant(draggedNode, node);
-    const isLandingPadActive = !didDrop && isDragging;
+    const isDraggedDescendant = draggedNode && isDescendant(draggedNode, node)
+    const isLandingPadActive = !didDrop && isDragging
 
-    let buttonStyle = { left: -0.5 * scaffoldBlockPxWidth };
+    let buttonStyle = { left: -0.5 * scaffoldBlockPxWidth }
     if (rowDirection === 'rtl') {
-      buttonStyle = { right: -0.5 * scaffoldBlockPxWidth };
+      buttonStyle = { right: -0.5 * scaffoldBlockPxWidth }
     }
 
     return (
@@ -121,8 +121,7 @@ class NodeRendererDefault extends Component {
               style={{
                 opacity: isDraggedDescendant ? 0.5 : 1,
                 ...style,
-              }}
-            >
+              }}>
               {handle}
 
               <div
@@ -130,15 +129,13 @@ class NodeRendererDefault extends Component {
                   'rst__rowContents',
                   !canDrag && 'rst__rowContentsDragDisabled',
                   rowDirectionClass
-                )}
-              >
+                )}>
                 <div className={classnames('rst__rowLabel', rowDirectionClass)}>
                   <span
                     className={classnames(
                       'rst__rowTitle',
                       node.subtitle && 'rst__rowTitleWithSubtitle'
-                    )}
-                  >
+                    )}>
                     {typeof nodeTitle === 'function'
                       ? nodeTitle({
                           node,
@@ -165,8 +162,7 @@ class NodeRendererDefault extends Component {
                   {buttons.map((btn, index) => (
                     <div
                       key={index} // eslint-disable-line react/no-array-index-key
-                      className="rst__toolbarButton"
-                    >
+                      className="rst__toolbarButton">
                       {btn}
                     </div>
                   ))}
@@ -176,7 +172,7 @@ class NodeRendererDefault extends Component {
           )}
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -194,7 +190,7 @@ NodeRendererDefault.defaultProps = {
   title: null,
   subtitle: null,
   rowDirection: 'ltr',
-};
+}
 
 NodeRendererDefault.propTypes = {
   node: PropTypes.shape({}).isRequired,
@@ -228,6 +224,6 @@ NodeRendererDefault.propTypes = {
 
   // rtl support
   rowDirection: PropTypes.string,
-};
+}
 
-export default NodeRendererDefault;
+export default NodeRendererDefault
