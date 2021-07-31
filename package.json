@@ -92,6 +92,9 @@
     "@babel/core": "^7.14.8",
     "@babel/plugin-transform-modules-commonjs": "^7.14.5",
     "@nosferatu500/theme-file-explorer": "^3.0.5",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
     "@storybook/addon-storyshots": "^6.3.6",
     "@storybook/addons": "^6.3.6",
     "@storybook/react": "^6.3.6",
@@ -116,10 +119,8 @@
     "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.55.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^4.0.0"
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-size-snapshot": "^0.12.0"
   },
   "keywords": [
     "react",
