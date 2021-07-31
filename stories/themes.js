@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
-import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
+import FileExplorerTheme from '@nosferatu500/theme-file-explorer';
 import SortableTree from '../src';
 // In your own app, you would need to use import styles once in the app
 // import 'react-sortable-tree/styles.css';
@@ -16,14 +16,14 @@ export default class App extends Component {
           expanded: true,
           children: [
             {
-              title: 'Imported from react-sortable-tree-theme-file-explorer',
+              title: 'Imported from @nosferatu500/theme-file-explorer',
               expanded: true,
               children: [
                 {
                   title: (
                     <div>
                       Find it on{' '}
-                      <a href="https://www.npmjs.com/package/react-sortable-tree-theme-file-explorer">
+                      <a href="https://www.npmjs.com/package/@nosferatu500/theme-file-explorer">
                         npm
                       </a>
                     </div>

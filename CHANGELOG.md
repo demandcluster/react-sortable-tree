@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## Next
+
+* Replace theme package to own theme package
+* Bump deps
+
 ## 3.0.5
 
 * Bump deps

@@ -5302,7 +5302,7 @@ exports[`Storyshots Basics Themes 1`] = `
                         className="rstcustom__rowLabel"
                       >
                         <span>
-                          Imported from react-sortable-tree-theme-file-explorer
+                          Imported from @nosferatu500/theme-file-explorer
                         </span>
                       </div>
                       <div
@@ -5389,7 +5389,7 @@ exports[`Storyshots Basics Themes 1`] = `
                             Find it on
                              
                             <a
-                              href="https://www.npmjs.com/package/react-sortable-tree-theme-file-explorer"
+                              href="https://www.npmjs.com/package/@nosferatu500/theme-file-explorer"
                             >
                               npm
                             </a>
