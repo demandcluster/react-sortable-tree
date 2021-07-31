@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { insertNode } from './tree-data-utils'
 
 import { memoizedInsertNode } from './memoized-tree-data-utils'

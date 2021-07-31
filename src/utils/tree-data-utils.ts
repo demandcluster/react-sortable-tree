@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /**
  * Performs a depth-first traversal over all of the node descendants,
  * incrementing currentIndex by 1 for each

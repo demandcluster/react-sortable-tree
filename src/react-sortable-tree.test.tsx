@@ -1,4 +1,6 @@
 /* eslint-disable react/no-multi-comp */
+// @ts-nocheck
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import renderer from 'react-test-renderer'

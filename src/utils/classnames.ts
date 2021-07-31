@@ -1,3 +1,4 @@
+// @ts-nocheck
 // very simple className utility for creating a classname string...
 // Falsy arguments are ignored:
 //

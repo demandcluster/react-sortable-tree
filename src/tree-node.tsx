@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from './utils/classnames'

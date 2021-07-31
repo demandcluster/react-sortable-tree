@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 export function defaultGetNodeKey({ treeIndex }) {
   return treeIndex
 }

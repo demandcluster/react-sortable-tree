@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /* eslint-disable import/prefer-default-export */
 
 export function slideRows(rows, fromIndex, toIndex, count = 1) {

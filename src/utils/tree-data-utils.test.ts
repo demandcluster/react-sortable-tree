@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {
   getVisibleNodeCount,
   getVisibleNodeInfoAtIndex,

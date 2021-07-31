@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
