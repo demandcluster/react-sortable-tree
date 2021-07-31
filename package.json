@@ -61,6 +61,18 @@
   "license": "MIT",
   "bugs": "https://github.com/nosferatu500/react-sortable-tree/issues",
   "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsconfig": {
+          "target": "es2015",
+          "jsx": "react"
+        }
+      }
+    },
     "setupFilesAfterEnv": [
       "./node_modules/jest-enzyme/lib/index.js"
     ],
@@ -76,6 +88,9 @@
     "moduleDirectories": [
       "node_modules"
     ],
+    "modulePathIgnorePatterns": [
+      "dist"
+    ],
     "moduleNameMapper": {
       "\\.(css|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "^dnd-core$": "dnd-core/dist/cjs",
@@ -84,7 +99,19 @@
       "^react-dnd-touch-backend$": "react-dnd-touch-backend/dist/cjs",
       "^react-dnd-test-backend$": "react-dnd-test-backend/dist/cjs",
       "^react-dnd-test-utils$": "react-dnd-test-utils/dist/cjs"
-    }
+    },
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "html",
+      "text",
+      "text-summary"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts,tsx}",
+      "tests/**/*.{js,ts,tsx}"
+    ]
   },
   "dependencies": {
     "@nosferatu500/react-dnd-scrollzone": "^1.0.14",
