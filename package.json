@@ -1,13 +1,22 @@
 {
   "name": "@nosferatu500/react-sortable-tree",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-alpha.3",
   "description": "Drag-and-drop sortable component for nested data and hierarchies",
-  "main": "dist/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./index.js",
+  "module": "./esm/index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    "./": "./",
+    ".": {
+      "types": "./index.d.ts",
+      "module": "./esm/index.js",
+      "import": "./esm/index.js",
+      "default": "./index.js"
+    }
+  },
   "files": [
-    "dist",
-    "style.css"
+    "**"
   ],
   "sideEffects": false,
   "scripts": {
@@ -23,7 +32,10 @@
     "test:watch": "jest --watchAll",
     "storybook": "start-storybook -p ${PORT:-3001} -h 0.0.0.0",
     "postbuild": "yarn copy",
-    "copy": "shx rm -rf dist/tests.d.ts && shx cp -r dist/*.d.ts dist/esm && shx mv dist/* dist && shx cp package.json readme.md LICENSE dist && json -I -f dist/package.json -e \"this.private=false; this.devDependencies=undefined; this.optionalDependencies=undefined; this.scripts=undefined; this.prettier=undefined; this.jest=undefined; this['lint-staged']=undefined;\" && shx echo '{\"type\":\"module\"}' > dist/esm/package.json && json -I -f dist/esm/package.json"
+    "copy": "rimraf dist/tests.d.ts && shx cp -r dist/*.d.ts dist/esm && shx mv dist/* dist && shx cp package.json readme.md LICENSE dist && json -I -f dist/package.json -e \"this.private=false; this.devDependencies=undefined; this.optionalDependencies=undefined; this.scripts=undefined; this.prettier=undefined; this.jest=undefined; this['lint-staged']=undefined;\" && shx echo '{\"type\":\"module\"}' > dist/esm/package.json && json -I -f dist/esm/package.json",
+    "publish:alpha": "cd dist && npm publish --tag alpha",
+    "publish:beta": "cd dist && npm publish --tag beta",
+    "publish:release": "cd dist && npm publish"
   },
   "prettier": {
     "semi": false,
