@@ -1,4 +1,3 @@
-// @ts-nocheck
 // very simple className utility for creating a classname string...
 // Falsy arguments are ignored:
 //
@@ -9,7 +8,7 @@
 //    active && "class3"
 // ); // returns -> class1 class3";
 //
-export default function classnames(...classes) {
+export const classnames = (...classes: string[]) => {
   // Use Boolean constructor as a filter callback
   // Allows for loose type truthy/falsey checks
   // Boolean("") === false;
@@ -20,3 +19,5 @@ export default function classnames(...classes) {
   // Boolean("classname") === true;
   return classes.filter(Boolean).join(' ')
 }
+
+export default classnames

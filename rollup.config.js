@@ -42,7 +42,7 @@ function createDeclarationConfig(input, output) {
     acornInjectPlugins: [jsx()],
     plugins: [
       postcss({ extract: 'style.css' }),
-      typescript({ declaration: true, outDir: output })
+      typescript({ declaration: true, outDir: output }),
     ],
   }
 }
@@ -84,4 +84,3 @@ export default function (args) {
     createESMConfig('src/index.ts', 'dist/esm/index.js'),
   ]
 }
-

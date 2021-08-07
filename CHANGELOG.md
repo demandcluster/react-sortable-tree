@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## Next
 * Migrate to TS
-* Replace theme package to own theme package
+* Replace theme package by own theme package
 * Bump deps
 
 ## 3.0.5

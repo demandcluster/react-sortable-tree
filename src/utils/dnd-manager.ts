@@ -76,7 +76,7 @@ export default class DndManager {
       dragSourceInitialDepth = 0
 
       if (component) {
-        const relativePosition = findDOMNode(component).getBoundingClientRect() // eslint-disable-line react/no-find-dom-node
+        const relativePosition = findDOMNode(component)?.getBoundingClientRect() // eslint-disable-line react/no-find-dom-node
         const leftShift =
           monitor.getSourceClientOffset().x - relativePosition.left
         blocksOffset = Math.round(
@@ -184,7 +184,7 @@ export default class DndManager {
       },
     }
 
-    function nodeDragSourcePropInjection(connect, monitor) {
+    const nodeDragSourcePropInjection = (connect, monitor) => {
       return {
         connectDragSource: connect.dragSource(),
         connectDragPreview: connect.dragPreview(),
@@ -254,7 +254,7 @@ export default class DndManager {
       canDrop: this.canDrop.bind(this),
     }
 
-    function nodeDropTargetPropInjection(connect, monitor) {
+    const nodeDropTargetPropInjection = (connect, monitor) => {
       const dragged = monitor.getItem()
       return {
         connectDropTarget: connect.dropTarget(),
@@ -290,7 +290,7 @@ export default class DndManager {
       },
     }
 
-    function placeholderPropInjection(connect, monitor) {
+    const placeholderPropInjection = (connect, monitor) => {
       const dragged = monitor.getItem()
       return {
         connectDropTarget: connect.dropTarget(),
