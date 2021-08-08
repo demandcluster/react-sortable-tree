@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import SortableTree, {
   SortableTreeWithoutDndContext,
 } from './react-sortable-tree'

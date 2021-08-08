@@ -1,28 +1,34 @@
-// @ts-nocheck
-
 import React from 'react'
-import PropTypes from 'prop-types'
 import { classnames } from './utils/classnames'
 import './placeholder-renderer-default.css'
+import { TreeItem } from '.'
 
-const PlaceholderRendererDefault = ({ isOver, canDrop }) => (
-  <div
-    className={classnames(
-      'rst__placeholder',
-      canDrop && 'rst__placeholderLandingPad',
-      canDrop && !isOver && 'rst__placeholderCancelPad'
-    )}
-  />
-)
+export interface PlaceholderRendererProps {
+  isOver: boolean
+  canDrop: boolean
+  draggedNode: TreeItem
+}
 
-PlaceholderRendererDefault.defaultProps = {
+const defaultProps = {
   isOver: false,
   canDrop: false,
 }
 
-PlaceholderRendererDefault.propTypes = {
-  isOver: PropTypes.bool,
-  canDrop: PropTypes.bool,
+const PlaceholderRendererDefault: React.FC<PlaceholderRendererProps> = (
+  props
+) => {
+  props = { ...defaultProps, ...props }
+  const { canDrop, isOver } = props
+
+  return (
+    <div
+      className={classnames(
+        'rst__placeholder',
+        canDrop ? 'rst__placeholderLandingPad' : '',
+        canDrop && !isOver ? 'rst__placeholderCancelPad' : ''
+      )}
+    />
+  )
 }
 
 export default PlaceholderRendererDefault

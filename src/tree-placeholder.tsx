@@ -1,39 +1,36 @@
-// @ts-nocheck
+import React, { Children, cloneElement } from 'react'
+import { TreeItem } from '.'
+import { ConnectDropTarget } from 'react-dnd'
 
-import React, { Children, cloneElement, Component } from 'react'
-import PropTypes from 'prop-types'
-
-class TreePlaceholder extends Component {
-  render() {
-    const { children, connectDropTarget, treeId, drop, ...otherProps } =
-      this.props
-    return connectDropTarget(
-      <div>
-        {Children.map(children, (child) =>
-          cloneElement(child, {
-            ...otherProps,
-          })
-        )}
-      </div>
-    )
-  }
-}
-
-TreePlaceholder.defaultProps = {
+const defaultProps = {
   canDrop: false,
   draggedNode: null,
 }
 
-TreePlaceholder.propTypes = {
-  children: PropTypes.node.isRequired,
-
+type TreePlaceholderProps = {
+  children: any
   // Drop target
-  connectDropTarget: PropTypes.func.isRequired,
-  isOver: PropTypes.bool.isRequired,
-  canDrop: PropTypes.bool,
-  draggedNode: PropTypes.shape({}),
-  treeId: PropTypes.string.isRequired,
-  drop: PropTypes.func.isRequired,
+  connectDropTarget: ConnectDropTarget
+  isOver: boolean
+  canDrop: boolean
+  draggedNode: TreeItem
+  treeId: string
+  drop: any
+}
+
+const TreePlaceholder = (props: TreePlaceholderProps) => {
+  props = { ...defaultProps, ...props }
+  const { children, connectDropTarget, treeId, drop, ...otherProps } = props
+
+  return connectDropTarget(
+    <div>
+      {Children.map(children, (child) =>
+        cloneElement(child, {
+          ...otherProps,
+        })
+      )}
+    </div>
+  )
 }
 
 export default TreePlaceholder

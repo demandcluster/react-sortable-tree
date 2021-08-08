@@ -10,7 +10,7 @@ export type GetTreeItemChildrenFn = (data: GetTreeItemChildren) => void
 
 export type GetNodeKeyFunction = (data: TreeIndex & TreeNode) => string | number
 
-type NumberOrStringArray = Array<string | number>
+export type NumberOrStringArray = Array<string | number>
 
 export interface TreeItem {
   title?: React.ReactNode | undefined
