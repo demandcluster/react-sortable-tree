@@ -156,14 +156,14 @@ describe('getVisibleNodeInfoAtIndex', () => {
         treeData: [{ key: 0 }],
         index: 0,
         getNodeKey: keyFromTreeIndex,
-      }).node.key
+      })?.node.key
     ).toEqual(0)
     expect(
       getVisibleNodeInfoAtIndex({
         treeData: [{ key: 0 }, { key: 1 }],
         index: 1,
         getNodeKey: keyFromTreeIndex,
-      }).node.key
+      })?.node.key
     ).toEqual(1)
   })
 
@@ -189,9 +189,9 @@ describe('getVisibleNodeInfoAtIndex', () => {
       getNodeKey: keyFromTreeIndex,
     })
 
-    expect(result.node.key).toEqual(6)
-    expect(result.path).toEqual([1])
-    expect(result.lowerSiblingCounts).toEqual([0])
+    expect(result?.node.key).toEqual(6)
+    expect(result?.path).toEqual([1])
+    expect(result?.lowerSiblingCounts).toEqual([0])
   })
 
   it('should handle partially expanded nested data', () => {
@@ -218,9 +218,9 @@ describe('getVisibleNodeInfoAtIndex', () => {
       getNodeKey: keyFromKey,
     })
 
-    expect(result.node.key).toEqual(5)
-    expect(result.path).toEqual([0, 4, 5])
-    expect(result.lowerSiblingCounts).toEqual([1, 0, 0])
+    expect(result?.node.key).toEqual(5)
+    expect(result?.path).toEqual([0, 4, 5])
+    expect(result?.lowerSiblingCounts).toEqual([1, 0, 0])
   })
 
   it('should handle fully expanded nested data', () => {
@@ -248,9 +248,9 @@ describe('getVisibleNodeInfoAtIndex', () => {
       getNodeKey: keyFromTreeIndex,
     })
 
-    expect(result.node.key).toEqual(5)
-    expect(result.path).toEqual([0, 4, 5])
-    expect(result.lowerSiblingCounts).toEqual([1, 0, 0])
+    expect(result?.node.key).toEqual(5)
+    expect(result?.path).toEqual([0, 4, 5])
+    expect(result?.lowerSiblingCounts).toEqual([1, 0, 0])
   })
 
   it('should handle an index that is larger than the data', () => {

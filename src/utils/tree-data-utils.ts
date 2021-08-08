@@ -4,17 +4,30 @@ import {
   FullTree,
   GetNodeKeyFunction,
   GetTreeItemChildren,
+  NodeData,
+  SearchData,
   TreeIndex,
   TreeItem,
   TreeNode,
   TreePath,
 } from '..'
 
+export type WalkAndMapFunctionParameters = FullTree & {
+  getNodeKey: GetNodeKeyFunction
+  callback: Function
+  ignoreCollapsed?: boolean | undefined
+}
+
+export interface FlatDataItem extends TreeNode, TreePath {
+  lowerSiblingCounts: number[]
+  parentNode: TreeItem
+}
+
 /**
  * Performs a depth-first traversal over all of the node descendants,
  * incrementing currentIndex by 1 for each
  */
-function getNodeDataAtTreeIndexOrNextIndex({
+const getNodeDataAtTreeIndexOrNextIndex = ({
   targetIndex,
   node,
   currentIndex,
@@ -23,7 +36,16 @@ function getNodeDataAtTreeIndexOrNextIndex({
   lowerSiblingCounts = [],
   ignoreCollapsed = true,
   isPseudoRoot = false,
-}) {
+}: {
+  targetIndex: number
+  node: TreeItem
+  currentIndex: number
+  getNodeKey: GetNodeKeyFunction
+  path: number[]
+  lowerSiblingCounts: number[]
+  ignoreCollapsed: boolean
+  isPseudoRoot: boolean
+}) => {
   // The pseudo-root is not considered in the path
   const selfPath = !isPseudoRoot
     ? [...path, getNodeKey({ node, treeIndex: currentIndex })]
@@ -69,7 +91,10 @@ function getNodeDataAtTreeIndexOrNextIndex({
   return { nextIndex: childIndex }
 }
 
-export function getDescendantCount({ node, ignoreCollapsed = true }) {
+export const getDescendantCount = ({
+  node,
+  ignoreCollapsed = true,
+}: TreeNode & { ignoreCollapsed?: boolean | undefined }): number => {
   return (
     getNodeDataAtTreeIndexOrNextIndex({
       getNodeKey: () => {},
@@ -100,7 +125,7 @@ export function getDescendantCount({ node, ignoreCollapsed = true }) {
  * @return {number|false} nextIndex - Index of the next sibling of `node`,
  *                                    or false if the walk should be terminated
  */
-function walkDescendants({
+const walkDescendants = ({
   callback,
   getNodeKey,
   ignoreCollapsed,
@@ -110,7 +135,7 @@ function walkDescendants({
   currentIndex,
   path = [],
   lowerSiblingCounts = [],
-}) {
+}) => {
   // The pseudo-root is not considered in the path
   const selfPath = isPseudoRoot
     ? []
@@ -187,7 +212,7 @@ function walkDescendants({
  * @return {number|false} nextIndex - Index of the next sibling of `node`,
  *                                    or false if the walk should be terminated
  */
-function mapDescendants({
+const mapDescendants = ({
   callback,
   getNodeKey,
   ignoreCollapsed,
@@ -197,7 +222,7 @@ function mapDescendants({
   currentIndex,
   path = [],
   lowerSiblingCounts = [],
-}) {
+}) => {
   const nextNode = { ...node }
 
   // The pseudo-root is not considered in the path
@@ -257,7 +282,7 @@ function mapDescendants({
  *
  * @return {number} count
  */
-export function getVisibleNodeCount({ treeData }) {
+export const getVisibleNodeCount = ({ treeData }: FullTree): number => {
   const traverse = (node) => {
     if (
       !node.children ||
@@ -295,11 +320,14 @@ export function getVisibleNodeCount({ treeData }) {
  *      lowerSiblingCounts: []number
  *  }|null} node - The node at targetIndex, or null if not found
  */
-export function getVisibleNodeInfoAtIndex({
+export const getVisibleNodeInfoAtIndex = ({
   treeData,
   index: targetIndex,
   getNodeKey,
-}) {
+}: FullTree & {
+  index: number
+  getNodeKey: GetNodeKeyFunction
+}): (TreeNode & TreePath & { lowerSiblingCounts: number[] }) | null => {
   if (!treeData || treeData.length < 1) {
     return null
   }
@@ -335,12 +363,12 @@ export function getVisibleNodeInfoAtIndex({
  *
  * @return void
  */
-export function walk({
+export const walk = ({
   treeData,
   getNodeKey,
   callback,
   ignoreCollapsed = true,
-}) {
+}: WalkAndMapFunctionParameters): void => {
   if (!treeData || treeData.length < 1) {
     return
   }
@@ -368,12 +396,12 @@ export function walk({
  *
  * @return {Object[]} changedTreeData - The changed tree data
  */
-export function map({
+export const map = ({
   treeData,
   getNodeKey,
   callback,
   ignoreCollapsed = true,
-}) {
+}: WalkAndMapFunctionParameters): TreeItem[] => {
   if (!treeData || treeData.length < 1) {
     return []
   }
@@ -398,7 +426,12 @@ export function map({
  *
  * @return {Object[]} changedTreeData - The changed tree data
  */
-export function toggleExpandedForAll({ treeData, expanded = true }) {
+export const toggleExpandedForAll = ({
+  treeData,
+  expanded = true,
+}: FullTree & {
+  expanded?: boolean | undefined
+}): TreeItem[] => {
   return map({
     treeData,
     callback: ({ node }) => ({ ...node, expanded }),
@@ -418,7 +451,7 @@ export function toggleExpandedForAll({ treeData, expanded = true }) {
  *
  * @return {Object[]} changedTreeData - The changed tree data
  */
-export function changeNodeAtPath({
+export const changeNodeAtPath = ({
   treeData,
   path,
   newNode,
@@ -429,7 +462,7 @@ export function changeNodeAtPath({
     newNode: Function | any
     getNodeKey: GetNodeKeyFunction
     ignoreCollapsed?: boolean | undefined
-  }): TreeItem[] {
+  }): TreeItem[] => {
   const RESULT_MISS = 'RESULT_MISS'
   const traverse = ({
     isPseudoRoot = false,
@@ -520,7 +553,7 @@ export function changeNodeAtPath({
  *
  * @return {Object[]} changedTreeData - The tree data with the node removed
  */
-export function removeNodeAtPath({
+export const removeNodeAtPath = ({
   treeData,
   path,
   getNodeKey,
@@ -529,7 +562,7 @@ export function removeNodeAtPath({
   TreePath & {
     getNodeKey: GetNodeKeyFunction
     ignoreCollapsed?: boolean | undefined
-  }): TreeItem[] {
+  }): TreeItem[] => {
   return changeNodeAtPath({
     treeData,
     path,
@@ -552,12 +585,16 @@ export function removeNodeAtPath({
  * @return {Object} result.node - The node that was removed
  * @return {number} result.treeIndex - The previous treeIndex of the removed node
  */
-export function removeNode({
+export const removeNode = ({
   treeData,
   path,
   getNodeKey,
   ignoreCollapsed = true,
-}) {
+}: FullTree &
+  TreePath & {
+    getNodeKey: GetNodeKeyFunction
+    ignoreCollapsed?: boolean | undefined
+  }): (FullTree & TreeNode & TreeIndex) | null => {
   let removedNode = null
   let removedTreeIndex = null
   const nextTreeData = changeNodeAtPath({
@@ -591,7 +628,7 @@ export function removeNode({
  *
  * @return {Object|null} nodeInfo - The node info at the given path, or null if not found
  */
-export function getNodeAtPath({
+export const getNodeAtPath = ({
   treeData,
   path,
   getNodeKey,
@@ -600,7 +637,7 @@ export function getNodeAtPath({
   TreePath & {
     getNodeKey: GetNodeKeyFunction
     ignoreCollapsed?: boolean | undefined
-  }): (TreeNode & TreeIndex) | null {
+  }): (TreeNode & TreeIndex) | null => {
   let foundNodeInfo = null
 
   try {
@@ -636,7 +673,7 @@ export function getNodeAtPath({
  * @return {Object[]} result.treeData - The updated tree data
  * @return {number} result.treeIndex - The tree index at which the node was inserted
  */
-export function addNodeUnderParent({
+export const addNodeUnderParent = ({
   treeData,
   newNode,
   parentKey = null,
@@ -651,7 +688,7 @@ export function addNodeUnderParent({
   ignoreCollapsed?: boolean | undefined
   expandParent?: boolean | undefined
   addAsFirstChild?: boolean | undefined
-}): FullTree & TreeIndex {
+}): FullTree & TreeIndex => {
   if (parentKey === null) {
     return addAsFirstChild
       ? {
@@ -729,7 +766,7 @@ export function addNodeUnderParent({
   }
 }
 
-function addNodeAtDepthAndIndex({
+const addNodeAtDepthAndIndex = ({
   targetDepth,
   minimumTreeIndex,
   newNode,
@@ -742,7 +779,7 @@ function addNodeAtDepthAndIndex({
   currentDepth,
   getNodeKey,
   path = [],
-}) {
+}) => {
   const selfPath = (n) =>
     isPseudoRoot
       ? []
@@ -919,7 +956,7 @@ function addNodeAtDepthAndIndex({
  * @return {number[]|string[]} result.path - Array of keys leading to the node location after insertion
  * @return {Object} result.parentNode - The parent node of the inserted node
  */
-export function insertNode({
+export const insertNode = ({
   treeData,
   depth: targetDepth,
   minimumTreeIndex,
@@ -934,7 +971,7 @@ export function insertNode({
   ignoreCollapsed?: boolean | undefined
   expandParent?: boolean | undefined
   getNodeKey: GetNodeKeyFunction
-}): FullTree & TreeIndex & TreePath & { parentNode: TreeItem | null } {
+}): FullTree & TreeIndex & TreePath & { parentNode: TreeItem | null } => {
   if (!treeData && targetDepth === 0) {
     return {
       treeData: [newNode],
@@ -987,11 +1024,14 @@ export function insertNode({
  *      lowerSiblingCounts: []number
  *  }}[] nodes - The node array
  */
-export function getFlatDataFromTree({
+export const getFlatDataFromTree = ({
   treeData,
   getNodeKey,
   ignoreCollapsed = true,
-}) {
+}: FullTree & {
+  getNodeKey: GetNodeKeyFunction
+  ignoreCollapsed?: boolean | undefined
+}): FlatDataItem[] => {
   if (!treeData || treeData.length < 1) {
     return []
   }
@@ -1020,12 +1060,12 @@ export function getFlatDataFromTree({
  *
  * @return {Object[]} treeData - The flat data represented as a tree
  */
-export function getTreeFromFlatData({
+export const getTreeFromFlatData = ({
   flatData,
   getKey = (node) => node.id,
   getParentKey = (node) => node.parentId,
   rootKey = '0',
-}) {
+}) => {
   if (!flatData) {
     return []
   }
@@ -1068,7 +1108,7 @@ export function getTreeFromFlatData({
  *
  * @return {boolean}
  */
-export function isDescendant(older, younger) {
+export const isDescendant = (older: TreeItem, younger: TreeItem): boolean => {
   return (
     !!older.children &&
     typeof older.children !== 'function' &&
@@ -1086,7 +1126,7 @@ export function isDescendant(older, younger) {
  *
  * @return {number} maxDepth - The deepest depth in the tree
  */
-export function getDepth(node, depth = 0) {
+export const getDepth = (node: TreeItem, depth?: number = 0): number => {
   if (!node.children) {
     return depth
   }
@@ -1118,7 +1158,7 @@ export function getDepth(node, depth = 0) {
  *                               If expandAllMatchPaths and expandFocusMatchPaths are both false,
  *                               it will be the same as the original tree data.
  */
-export function find({
+export const find = ({
   getNodeKey,
   treeData,
   searchQuery,
@@ -1126,7 +1166,14 @@ export function find({
   searchFocusOffset,
   expandAllMatchPaths = false,
   expandFocusMatchPaths = true,
-}) {
+}: FullTree & {
+  getNodeKey: GetNodeKeyFunction
+  searchQuery?: string | number | undefined
+  searchMethod: (data: SearchData) => boolean
+  searchFocusOffset?: number | undefined
+  expandAllMatchPaths?: boolean | undefined
+  expandFocusMatchPaths?: boolean | undefined
+}): { matches: NodeData[] } & FullTree => {
   let matchCount = 0
   const trav = ({ isPseudoRoot = false, node, currentIndex, path = [] }) => {
     let matches: any[] = []
