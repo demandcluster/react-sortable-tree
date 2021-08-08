@@ -1,8 +1,48 @@
-// @ts-nocheck
-
-export const defaultGetNodeKey = ({ treeIndex }: { treeIndex: number }) => {
-  return treeIndex
+export interface GetTreeItemChildren {
+  done: (children: TreeItem[]) => void
+  node: TreeItem
+  path: NumberOrStringArray
+  lowerSiblingCounts: number[]
+  treeIndex: number
 }
+
+export type GetTreeItemChildrenFn = (data: GetTreeItemChildren) => void
+
+export type GetNodeKeyFunction = (data: TreeIndex & TreeNode) => string | number
+
+type NumberOrStringArray = Array<string | number>
+
+export interface TreeItem {
+  title?: React.ReactNode | undefined
+  subtitle?: React.ReactNode | undefined
+  expanded?: boolean | undefined
+  children?: TreeItem[] | GetTreeItemChildrenFn | undefined
+  [x: string]: any
+}
+
+export interface TreeNode {
+  node: TreeItem
+}
+
+export interface TreePath {
+  path: NumberOrStringArray | number
+}
+
+export interface TreeIndex {
+  treeIndex: number
+}
+
+export interface FullTree {
+  treeData: TreeItem[] | undefined | null
+}
+
+export interface NodeData extends TreeNode, TreePath, TreeIndex {}
+
+export interface SearchData extends NodeData {
+  searchQuery: any
+}
+
+export const defaultGetNodeKey = ({ treeIndex }: TreeIndex) => treeIndex
 
 // Cheap hack to get the text of a react object
 const getReactElementText = (parent: any) => {
@@ -34,8 +74,8 @@ const getReactElementText = (parent: any) => {
 const stringSearch = (
   key: string,
   searchQuery: string,
-  node,
-  path,
+  node: TreeItem,
+  path: NumberOrStringArray | number,
   treeIndex: number
 ) => {
   if (typeof node[key] === 'function') {
@@ -58,12 +98,7 @@ export const defaultSearchMethod = ({
   path,
   treeIndex,
   searchQuery,
-}: {
-  node
-  path
-  treeIndex: number
-  searchQuery: string
-}) => {
+}: SearchData): boolean => {
   return (
     stringSearch('title', searchQuery, node, path, treeIndex) ||
     stringSearch('subtitle', searchQuery, node, path, treeIndex)

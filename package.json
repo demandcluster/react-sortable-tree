@@ -1,6 +1,6 @@
 {
   "name": "@nosferatu500/react-sortable-tree",
-  "version": "4.0.0-alpha.3",
+  "version": "4.0.0-beta.0",
   "description": "Drag-and-drop sortable component for nested data and hierarchies",
   "main": "./index.js",
   "module": "./esm/index.js",
@@ -120,7 +120,7 @@
     ]
   },
   "dependencies": {
-    "@nosferatu500/react-dnd-scrollzone": "2.0.0-beta.0",
+    "@nosferatu500/react-dnd-scrollzone": "^2.0.0",
     "lodash.isequal": "^4.5.0",
     "prop-types": "^15.7.2",
     "react-dnd": "^14.0.2",
@@ -148,6 +148,7 @@
     "@types/jest": "^26.0.24",
     "@types/react": "^17.0.16",
     "@types/react-dom": "^17.0.9",
+    "@types/react-virtualized": "^9.21.13",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
@@ -155,7 +156,7 @@
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-tester": "^10.1.0",
     "enzyme": "^3.11.0",
-    "esbuild": "^0.12.18",
+    "esbuild": "^0.12.19",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",

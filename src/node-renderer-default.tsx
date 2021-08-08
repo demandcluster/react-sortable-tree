@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isDescendant } from './utils/tree-data-utils'
-import classnames from './utils/classnames'
+import { classnames } from './utils/classnames'
 import './node-renderer-default.css'
 
 class NodeRendererDefault extends Component {

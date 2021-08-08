@@ -1,17 +1,15 @@
-// @ts-nocheck
-
 import {
   insertNode,
   getDescendantCount,
   getFlatDataFromTree,
 } from './tree-data-utils'
 
-const memoize = (f) => {
-  let savedArgsArray = []
-  let savedKeysArray = []
-  let savedResult = null
+const memoize = (f: (...args: any) => void) => {
+  let savedArgsArray: any = []
+  let savedKeysArray: any = []
+  let savedResult: any = null
 
-  return (args) => {
+  return (args: any) => {
     const keysArray = Object.keys(args).sort()
     const argsArray = keysArray.map((key) => args[key])
 

@@ -1919,16 +1919,13 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@nosferatu500/react-dnd-scrollzone@2.0.0-beta.0":
-  version "2.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@nosferatu500/react-dnd-scrollzone/-/react-dnd-scrollzone-2.0.0-beta.0.tgz#71db3c13c1937cd65efd390f1f511662828d7098"
-  integrity sha512-pKXnT0ay3aC0efGdIrsu5zy0vIA+xIF2/4ho9csL7kzehEMPQCNCIN7MaFuJruFULySrMJHhoowJJ7GkNGs1MQ==
+"@nosferatu500/react-dnd-scrollzone@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@nosferatu500/react-dnd-scrollzone/-/react-dnd-scrollzone-2.0.0.tgz#6f7bb21a028898c31b1caaa039092f015f097de5"
+  integrity sha512-9lrSBH1eeUkNjHpDS7w1fEv1DdXA/R/BCbvY8tpy5KWI9UvdIUoSB0TV8QGGi4dSqMASQfK1S1E4+NmcScXp4Q==
   dependencies:
     hoist-non-react-statics "^3.3.2"
     lodash.throttle "^4.1.1"
-    prop-types "^15.7.2"
-    raf "^3.4.1"
-    react-display-name "^0.2.5"
 
 "@nosferatu500/theme-file-explorer@^3.0.6":
   version "3.0.6"
@@ -2926,6 +2923,14 @@
   resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-11.0.5.tgz#0d546261b4021e1f9d85b50401c0a42acb106087"
   integrity sha512-VIOi9i2Oj5XsmWWoB72p3KlZoEbdRAcechJa8Ztebw7bDl2YmR+odxIqhtJGp1q2EozHs02US+gzxJ9nuf56qg==
   dependencies:
+    "@types/react" "*"
+
+"@types/react-virtualized@^9.21.13":
+  version "9.21.13"
+  resolved "https://registry.yarnpkg.com/@types/react-virtualized/-/react-virtualized-9.21.13.tgz#4222173abe7c9ed7504c75886c8367502ac7b9f1"
+  integrity sha512-tCIQ5wDKj+QJ3sMzjPKSLY0AXsznt+ovAUcq+JCLjPBOcAHbPt4FraGT9HKYEFfmp9E6+ELuN49i5bWtuBmi3w==
+  dependencies:
+    "@types/prop-types" "*"
     "@types/react" "*"
 
 "@types/react@*":
@@ -5946,10 +5951,10 @@ es6-shim@^0.35.5:
   resolved "https://registry.yarnpkg.com/es6-shim/-/es6-shim-0.35.6.tgz#d10578301a83af2de58b9eadb7c2c9945f7388a0"
   integrity sha512-EmTr31wppcaIAgblChZiuN/l9Y7DPyw8Xtbg7fIVngn6zMW+IEBJDJngeKC3x6wr0V/vcA2wqeFnaw1bFJbDdA==
 
-esbuild@^0.12.18:
-  version "0.12.18"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.12.18.tgz#e5db16372188c2b4d395f7f55fdade27f6a119fa"
-  integrity sha512-arWhBQSy+oiBAp8VRRCFvAU+3jyf0gGacABLO3haMHboXCDjzq4WUqyQklst2XRuFS8MXgap+9uvODqj9Iygpg==
+esbuild@^0.12.19:
+  version "0.12.19"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.12.19.tgz#ab849766705a5093df5acd8ec2f6ba2159a38a6c"
+  integrity sha512-5NuT1G6THW7l3fsSCDkcPepn24R0XtyPjKoqKHD8LfhqMXzCdz0mrS9HgO6hIhzVT7zt0T+JGbzCqF5AH8hS9w==
 
 escalade@^3.0.2, escalade@^3.1.1:
   version "3.1.1"
@@ -11145,11 +11150,6 @@ react-dev-utils@^11.0.3:
     shell-quote "1.7.2"
     strip-ansi "6.0.0"
     text-table "0.2.0"
-
-react-display-name@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/react-display-name/-/react-display-name-0.2.5.tgz#304c7cbfb59ee40389d436e1a822c17fe27936c6"
-  integrity sha512-I+vcaK9t4+kypiSgaiVWAipqHRXYmZIuAiS8vzFvXHHXVigg/sMKwlRgLy6LH2i3rmP+0Vzfl5lFsFRwF1r3pg==
 
 react-dnd-html5-backend@^14.0.0:
   version "14.0.0"

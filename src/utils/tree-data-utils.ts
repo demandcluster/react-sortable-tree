@@ -1,5 +1,15 @@
 // @ts-nocheck
 
+import {
+  FullTree,
+  GetNodeKeyFunction,
+  GetTreeItemChildren,
+  TreeIndex,
+  TreeItem,
+  TreeNode,
+  TreePath,
+} from '..'
+
 /**
  * Performs a depth-first traversal over all of the node descendants,
  * incrementing currentIndex by 1 for each
@@ -414,7 +424,12 @@ export function changeNodeAtPath({
   newNode,
   getNodeKey,
   ignoreCollapsed = true,
-}) {
+}: FullTree &
+  TreePath & {
+    newNode: Function | any
+    getNodeKey: GetNodeKeyFunction
+    ignoreCollapsed?: boolean | undefined
+  }): TreeItem[] {
   const RESULT_MISS = 'RESULT_MISS'
   const traverse = ({
     isPseudoRoot = false,
@@ -510,7 +525,11 @@ export function removeNodeAtPath({
   path,
   getNodeKey,
   ignoreCollapsed = true,
-}) {
+}: FullTree &
+  TreePath & {
+    getNodeKey: GetNodeKeyFunction
+    ignoreCollapsed?: boolean | undefined
+  }): TreeItem[] {
   return changeNodeAtPath({
     treeData,
     path,
@@ -577,7 +596,11 @@ export function getNodeAtPath({
   path,
   getNodeKey,
   ignoreCollapsed = true,
-}) {
+}: FullTree &
+  TreePath & {
+    getNodeKey: GetNodeKeyFunction
+    ignoreCollapsed?: boolean | undefined
+  }): (TreeNode & TreeIndex) | null {
   let foundNodeInfo = null
 
   try {
@@ -586,7 +609,7 @@ export function getNodeAtPath({
       path,
       getNodeKey,
       ignoreCollapsed,
-      newNode: ({ node, treeIndex }) => {
+      newNode: ({ node, treeIndex }: GetTreeItemChildren) => {
         foundNodeInfo = { node, treeIndex }
         return node
       },
@@ -621,7 +644,14 @@ export function addNodeUnderParent({
   ignoreCollapsed = true,
   expandParent = false,
   addAsFirstChild = false,
-}) {
+}: FullTree & {
+  newNode: TreeItem
+  parentKey?: number | string | undefined | null
+  getNodeKey: GetNodeKeyFunction
+  ignoreCollapsed?: boolean | undefined
+  expandParent?: boolean | undefined
+  addAsFirstChild?: boolean | undefined
+}): FullTree & TreeIndex {
   if (parentKey === null) {
     return addAsFirstChild
       ? {
@@ -640,7 +670,7 @@ export function addNodeUnderParent({
     treeData,
     getNodeKey,
     ignoreCollapsed,
-    callback: ({ node, treeIndex, path }) => {
+    callback: ({ node, treeIndex, path }: GetTreeItemChildren) => {
       const key = path ? path[path.length - 1] : null
       // Return nodes that are not the parent as-is
       if (hasBeenAdded || key !== parentKey) {
@@ -894,10 +924,17 @@ export function insertNode({
   depth: targetDepth,
   minimumTreeIndex,
   newNode,
-  getNodeKey = () => {},
+  getNodeKey,
   ignoreCollapsed = true,
   expandParent = false,
-}) {
+}: FullTree & {
+  depth: number
+  newNode: TreeItem
+  minimumTreeIndex: number
+  ignoreCollapsed?: boolean | undefined
+  expandParent?: boolean | undefined
+  getNodeKey: GetNodeKeyFunction
+}): FullTree & TreeIndex & TreePath & { parentNode: TreeItem | null } {
   if (!treeData && targetDepth === 0) {
     return {
       treeData: [newNode],
@@ -1092,7 +1129,7 @@ export function find({
 }) {
   let matchCount = 0
   const trav = ({ isPseudoRoot = false, node, currentIndex, path = [] }) => {
-    let matches = []
+    let matches: any[] = []
     let isSelfMatch = false
     let hasFocusMatch = false
     // The pseudo-root is not considered in the path

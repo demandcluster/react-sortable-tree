@@ -2,7 +2,7 @@
 
 import React, { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import classnames from './utils/classnames'
+import { classnames } from './utils/classnames'
 import './tree-node.css'
 
 class TreeNode extends Component {

@@ -19,5 +19,3 @@ export const classnames = (...classes: string[]) => {
   // Boolean("classname") === true;
   return classes.filter(Boolean).join(' ')
 }
-
-export default classnames

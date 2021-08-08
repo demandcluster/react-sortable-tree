@@ -18,7 +18,7 @@ import PlaceholderRendererDefault from './placeholder-renderer-default'
 import './react-sortable-tree.css'
 import TreeNode from './tree-node'
 import TreePlaceholder from './tree-placeholder'
-import classnames from './utils/classnames'
+import { classnames } from './utils/classnames'
 import {
   defaultGetNodeKey,
   defaultSearchMethod,
