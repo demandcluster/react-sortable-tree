@@ -1,7 +1,6 @@
-import { insertNode } from './tree-data-utils'
-
-import { memoizedInsertNode } from './memoized-tree-data-utils'
 import { TreeIndex } from '..'
+import { memoizedInsertNode } from './memoized-tree-data-utils'
+import { insertNode } from './tree-data-utils'
 
 describe('insertNode', () => {
   it('should handle empty data', () => {

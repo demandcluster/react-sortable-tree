@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export const slideRows = (
   rows: any[],
   fromIndex: number,

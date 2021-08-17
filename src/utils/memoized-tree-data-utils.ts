@@ -1,7 +1,7 @@
 import {
-  insertNode,
   getDescendantCount,
   getFlatDataFromTree,
+  insertNode,
 } from './tree-data-utils'
 
 const memoize = (f: (...args: any) => void) => {

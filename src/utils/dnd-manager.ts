@@ -2,8 +2,8 @@
 
 import { DragSource as dragSource, DropTarget as dropTarget } from 'react-dnd'
 import { findDOMNode } from 'react-dom'
-import { getDepth } from './tree-data-utils'
 import { memoizedInsertNode } from './memoized-tree-data-utils'
+import { getDepth } from './tree-data-utils'
 
 export default class DndManager {
   constructor(treeRef) {

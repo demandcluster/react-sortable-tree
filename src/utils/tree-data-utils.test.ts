@@ -2,21 +2,21 @@
 
 import { SearchData, TreeIndex, TreeItem } from './default-handlers'
 import {
-  getVisibleNodeCount,
-  getVisibleNodeInfoAtIndex,
-  changeNodeAtPath,
   addNodeUnderParent,
-  getTreeFromFlatData,
-  getNodeAtPath,
-  getFlatDataFromTree,
-  walk,
-  map,
-  insertNode,
-  isDescendant,
+  changeNodeAtPath,
+  find,
   getDepth,
   getDescendantCount,
-  find,
+  getFlatDataFromTree,
+  getNodeAtPath,
+  getTreeFromFlatData,
+  getVisibleNodeCount,
+  getVisibleNodeInfoAtIndex,
+  insertNode,
+  isDescendant,
+  map,
   toggleExpandedForAll,
+  walk,
 } from './tree-data-utils'
 
 const keyFromTreeIndex = ({ treeIndex }: TreeIndex) => treeIndex

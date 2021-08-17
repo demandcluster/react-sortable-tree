@@ -1,7 +1,9 @@
 import React, { Children, cloneElement } from 'react'
+// eslint-disable-next-line import/named
+import { ConnectDropTarget } from 'react-dnd'
 import { classnames } from './utils/classnames'
 import './tree-node.css'
-import { ConnectDropTarget } from 'react-dnd'
+// eslint-disable-next-line import/named
 import { NumberOrStringArray, TreeItem, TreePath } from '.'
 
 export interface TreeNode {
@@ -63,10 +65,10 @@ const TreeNode: React.FC<TreeRendererProps> = (props) => {
     draggedNode,
     canDrop,
     treeIndex,
-    treeId, // Delete from otherProps
-    getPrevRow, // Delete from otherProps
-    node, // Delete from otherProps
-    path, // Delete from otherProps
+    treeId: _treeId, // Delete from otherProps
+    getPrevRow: _getPrevRow, // Delete from otherProps
+    node: _node, // Delete from otherProps
+    path: _path, // Delete from otherProps
     rowDirection,
     ...otherProps
   } = props

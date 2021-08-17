@@ -1,21 +1,22 @@
 // @ts-nocheck
 
-import isEqual from 'lodash.isequal'
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { DndContext, DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { polyfill } from 'react-lifecycles-compat'
-import { AutoSizer, List } from 'react-virtualized'
 import withScrolling, {
   createHorizontalStrength,
   createScrollingComponent,
   createVerticalStrength,
 } from '@nosferatu500/react-dnd-scrollzone'
+import isEqual from 'lodash.isequal'
+import PropTypes from 'prop-types'
+import { DndContext, DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { polyfill } from 'react-lifecycles-compat'
+import { AutoSizer, List } from 'react-virtualized'
 import 'react-virtualized/styles.css'
 import NodeRendererDefault from './node-renderer-default'
 import PlaceholderRendererDefault from './placeholder-renderer-default'
 import './react-sortable-tree.css'
+// eslint-disable-next-line import/no-named-as-default
 import TreeNode from './tree-node'
 import TreePlaceholder from './tree-placeholder'
 import { classnames } from './utils/classnames'

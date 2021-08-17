@@ -1,9 +1,11 @@
 import React from 'react'
-import { isDescendant } from './utils/tree-data-utils'
-import { classnames } from './utils/classnames'
-import './node-renderer-default.css'
-import { NodeData, TreeItem, NumberOrStringArray } from '.'
+// eslint-disable-next-line import/named
 import { ConnectDragPreview, ConnectDragSource } from 'react-dnd'
+import { classnames } from './utils/classnames'
+import { isDescendant } from './utils/tree-data-utils'
+import './node-renderer-default.css'
+import { NodeData, NumberOrStringArray, TreeItem } from '.'
+// eslint-disable-next-line import/named
 
 const defaultProps = {
   isSearchMatch: false,
@@ -79,9 +81,9 @@ const NodeRendererDefault: React.FC<NodeRendererProps> = (props) => {
     className,
     style,
     didDrop,
-    treeId,
-    isOver, // Not needed, but preserved for other renderers
-    parentNode, // Needed for dndManager
+    treeId: _treeId,
+    isOver: _isOver, // Not needed, but preserved for other renderers
+    parentNode: _parentNode, // Needed for dndManager
     rowDirection,
     ...otherProps
   } = props

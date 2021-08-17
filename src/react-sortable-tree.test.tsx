@@ -2,19 +2,20 @@
 // @ts-nocheck
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import renderer from 'react-test-renderer'
 import { mount } from 'enzyme'
-import { List } from 'react-virtualized'
-import { DndProvider, DndContext } from 'react-dnd'
-import { TestBackend } from 'react-dnd-test-backend'
+import PropTypes from 'prop-types'
+import { DndContext, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { TestBackend } from 'react-dnd-test-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
+import renderer from 'react-test-renderer'
+import { List } from 'react-virtualized'
+import DefaultNodeRenderer from './node-renderer-default'
 import SortableTree, {
   SortableTreeWithoutDndContext,
 } from './react-sortable-tree'
+// eslint-disable-next-line import/no-named-as-default
 import TreeNode from './tree-node'
-import DefaultNodeRenderer from './node-renderer-default'
 
 describe('<SortableTree />', () => {
   it('should render tree correctly', () => {

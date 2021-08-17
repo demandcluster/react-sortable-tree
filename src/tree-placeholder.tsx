@@ -1,6 +1,8 @@
 import React, { Children, cloneElement } from 'react'
-import { TreeItem } from '.'
+// eslint-disable-next-line import/named
 import { ConnectDropTarget } from 'react-dnd'
+import { TreeItem } from '.'
+// eslint-disable-next-line import/named
 
 const defaultProps = {
   canDrop: false,
@@ -20,7 +22,13 @@ type TreePlaceholderProps = {
 
 const TreePlaceholder = (props: TreePlaceholderProps) => {
   props = { ...defaultProps, ...props }
-  const { children, connectDropTarget, treeId, drop, ...otherProps } = props
+  const {
+    children,
+    connectDropTarget,
+    treeId: _treeId,
+    drop: _drop,
+    ...otherProps
+  } = props
 
   return connectDropTarget(
     <div>
