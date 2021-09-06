@@ -4,7 +4,7 @@ import { ConnectDropTarget } from 'react-dnd'
 import { classnames } from './utils/classnames'
 import './tree-node.css'
 // eslint-disable-next-line import/named
-import { NumberOrStringArray, TreeItem, TreePath } from '.'
+import { TreeItem, TreePath } from '.'
 
 export interface TreeNode {
   node: TreeItem
@@ -38,7 +38,7 @@ export interface TreeRendererProps {
   // used in dndManager
   getPrevRow: () => FlatDataItem | null
   node: TreeItem
-  path: NumberOrStringArray
+  path: number[]
 }
 
 const defaultProps = {

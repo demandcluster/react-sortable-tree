@@ -4,8 +4,7 @@ import { ConnectDragPreview, ConnectDragSource } from 'react-dnd'
 import { classnames } from './utils/classnames'
 import { isDescendant } from './utils/tree-data-utils'
 import './node-renderer-default.css'
-import { NodeData, NumberOrStringArray, TreeItem } from '.'
-// eslint-disable-next-line import/named
+import { NodeData, TreeItem } from '.'
 
 const defaultProps = {
   isSearchMatch: false,
@@ -25,7 +24,7 @@ const defaultProps = {
 
 export interface NodeRendererProps {
   node: TreeItem
-  path: NumberOrStringArray
+  path: number[]
   treeIndex: number
   isSearchMatch: boolean
   isSearchFocus: boolean

@@ -12,5 +12,19 @@
         "code": 31592
       }
     }
+  },
+  "index.mjs": {
+    "bundled": 65954,
+    "minified": 37732,
+    "gzipped": 9679,
+    "treeshaked": {
+      "rollup": {
+        "code": 30085,
+        "import_statements": 535
+      },
+      "webpack": {
+        "code": 31592
+      }
+    }
   }
 }

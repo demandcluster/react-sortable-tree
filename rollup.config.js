@@ -1,13 +1,13 @@
-import nodeResolve from '@rollup/plugin-node-resolve'
+import path from 'path'
 import babel from '@rollup/plugin-babel'
+import nodeResolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import jsx from 'acorn-jsx'
 import esbuild from 'rollup-plugin-esbuild'
 import postcss from 'rollup-plugin-postcss'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
-import typescript from '@rollup/plugin-typescript'
-import jsx from 'acorn-jsx'
-import path from 'path'
-
 const createBabelConfig = require('./babel.config')
+
 const extensions = ['.js', '.ts', '.tsx']
 const { root } = path.parse(process.cwd())
 
@@ -42,7 +42,11 @@ function createDeclarationConfig(input, output) {
     acornInjectPlugins: [jsx()],
     plugins: [
       postcss({ extract: 'style.css' }),
-      typescript({ declaration: true, outDir: output }),
+      typescript({
+        declaration: true,
+        emitDeclarationOnly: true,
+        outDir: output,
+      }),
     ],
   }
 }
@@ -81,6 +85,7 @@ export default function (args) {
   return [
     createDeclarationConfig('src/index.ts', 'dist'),
     createCommonJSConfig('src/index.ts', 'dist/index.js'),
+    createESMConfig('src/index.ts', 'dist/esm/index.mjs'),
     createESMConfig('src/index.ts', 'dist/esm/index.js'),
   ]
 }

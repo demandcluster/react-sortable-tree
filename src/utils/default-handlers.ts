@@ -1,7 +1,9 @@
+import { ReactNode } from 'react'
+
 export interface GetTreeItemChildren {
   done: (children: TreeItem[]) => void
   node: TreeItem
-  path: NumberOrStringArray
+  path: number[]
   lowerSiblingCounts: number[]
   treeIndex: number
 }
@@ -10,11 +12,9 @@ export type GetTreeItemChildrenFn = (data: GetTreeItemChildren) => void
 
 export type GetNodeKeyFunction = (data: TreeIndex & TreeNode) => string | number
 
-export type NumberOrStringArray = Array<string | number>
-
 export interface TreeItem {
-  title?: React.ReactNode | undefined
-  subtitle?: React.ReactNode | undefined
+  title?: ReactNode | undefined
+  subtitle?: ReactNode | undefined
   expanded?: boolean | undefined
   children?: TreeItem[] | GetTreeItemChildrenFn | undefined
   [x: string]: any
@@ -25,7 +25,7 @@ export interface TreeNode {
 }
 
 export interface TreePath {
-  path: NumberOrStringArray | number
+  path: number[]
 }
 
 export interface TreeIndex {
@@ -39,7 +39,7 @@ export interface FullTree {
 export interface NodeData extends TreeNode, TreePath, TreeIndex {}
 
 export interface SearchData extends NodeData {
-  searchQuery: any
+  searchQuery: string
 }
 
 export const defaultGetNodeKey = ({ treeIndex }: TreeIndex) => treeIndex
@@ -75,7 +75,7 @@ const stringSearch = (
   key: string,
   searchQuery: string,
   node: TreeItem,
-  path: NumberOrStringArray | number,
+  path: number[],
   treeIndex: number
 ) => {
   if (typeof node[key] === 'function') {
