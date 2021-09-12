@@ -1,3 +1,3 @@
-module.exports = el => el;
-module.exports.createVerticalStrength = () => {};
-module.exports.createHorizontalStrength = () => {};
+module.exports = (el) => el
+module.exports.createVerticalStrength = () => {}
+module.exports.createHorizontalStrength = () => {}

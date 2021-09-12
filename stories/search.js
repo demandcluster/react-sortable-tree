@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import SortableTree from '../src';
+import React, { Component } from 'react'
+import SortableTree from '../src'
 // In your own app, you would need to use import styles once in the app
 // import 'react-sortable-tree/styles.css';
 
 export default class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    const title = 'Hay';
+    const title = 'Hay'
 
     // For generating a haystack (you probably won't need to do this)
     const getStack = (left, hasNeedle = false) => {
       if (left === 0) {
-        return hasNeedle ? { title: 'Needle' } : { title };
+        return hasNeedle ? { title: 'Needle' } : { title }
       }
 
       return {
@@ -31,8 +31,8 @@ export default class App extends Component {
             ],
           },
         ],
-      };
-    };
+      }
+    }
 
     this.state = {
       searchString: '',
@@ -49,16 +49,16 @@ export default class App extends Component {
           ],
         },
       ],
-    };
+    }
   }
 
   render() {
-    const { searchString, searchFocusIndex, searchFoundCount } = this.state;
+    const { searchString, searchFocusIndex, searchFoundCount } = this.state
 
     // Case insensitive search of `node.title`
     const customSearchMethod = ({ node, searchQuery }) =>
       searchQuery &&
-      node.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
+      node.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
 
     const selectPrevMatch = () =>
       this.setState({
@@ -66,7 +66,7 @@ export default class App extends Component {
           searchFocusIndex !== null
             ? (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
             : searchFoundCount - 1,
-      });
+      })
 
     const selectNextMatch = () =>
       this.setState({
@@ -74,24 +74,23 @@ export default class App extends Component {
           searchFocusIndex !== null
             ? (searchFocusIndex + 1) % searchFoundCount
             : 0,
-      });
+      })
 
     return (
       <div>
         <h2>Find the needle!</h2>
         <form
           style={{ display: 'inline-block' }}
-          onSubmit={event => {
-            event.preventDefault();
-          }}
-        >
+          onSubmit={(event) => {
+            event.preventDefault()
+          }}>
           <input
             id="find-box"
             type="text"
             placeholder="Search..."
             style={{ fontSize: '1rem' }}
             value={searchString}
-            onChange={event =>
+            onChange={(event) =>
               this.setState({ searchString: event.target.value })
             }
           />
@@ -99,16 +98,14 @@ export default class App extends Component {
           <button
             type="button"
             disabled={!searchFoundCount}
-            onClick={selectPrevMatch}
-          >
+            onClick={selectPrevMatch}>
             &lt;
           </button>
 
           <button
             type="submit"
             disabled={!searchFoundCount}
-            onClick={selectNextMatch}
-          >
+            onClick={selectNextMatch}>
             &gt;
           </button>
 
@@ -123,7 +120,7 @@ export default class App extends Component {
         <div style={{ height: 300 }}>
           <SortableTree
             treeData={this.state.treeData}
-            onChange={treeData => this.setState({ treeData })}
+            onChange={(treeData) => this.setState({ treeData })}
             //
             // Custom comparison for matching during search.
             // This is optional, and defaults to a case sensitive search of
@@ -143,7 +140,7 @@ export default class App extends Component {
             // Here I just use it to note how many matches were found.
             // This is optional, but without it, the only thing searches
             // do natively is outline the matching nodes.
-            searchFinishCallback={matches =>
+            searchFinishCallback={(matches) =>
               this.setState({
                 searchFoundCount: matches.length,
                 searchFocusIndex:
@@ -153,6 +150,6 @@ export default class App extends Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }

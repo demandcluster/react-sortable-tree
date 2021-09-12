@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import SortableTree, { getFlatDataFromTree, getTreeFromFlatData } from '../src';
+import React, { Component } from 'react'
+import SortableTree, { getFlatDataFromTree, getTreeFromFlatData } from '../src'
 // In your own app, you would need to use import styles once in the app
 // import 'react-sortable-tree/styles.css';
 
@@ -8,20 +8,20 @@ const initialData = [
   { id: '2', name: 'N2', parent: null },
   { id: '3', name: 'N3', parent: 2 },
   { id: '4', name: 'N4', parent: 3 },
-];
+]
 
 export default class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       treeData: getTreeFromFlatData({
-        flatData: initialData.map(node => ({ ...node, title: node.name })),
-        getKey: node => node.id, // resolve a node's key
-        getParentKey: node => node.parent, // resolve a node's parent's key
+        flatData: initialData.map((node) => ({ ...node, title: node.name })),
+        getKey: (node) => node.id, // resolve a node's key
+        getParentKey: (node) => node.parent, // resolve a node's parent's key
         rootKey: null, // The value of the parent key when there is no parent (i.e., at root level)
       }),
-    };
+    }
   }
 
   render() {
@@ -36,7 +36,7 @@ export default class App extends Component {
       // The last entry in the path is this node's key
       // The second to last entry (accessed here) is the parent node's key
       parent: path.length > 1 ? path[path.length - 2] : null,
-    }));
+    }))
 
     return (
       <div>
@@ -44,7 +44,7 @@ export default class App extends Component {
         <div style={{ height: 250 }}>
           <SortableTree
             treeData={this.state.treeData}
-            onChange={treeData => this.setState({ treeData })}
+            onChange={(treeData) => this.setState({ treeData })}
           />
         </div>
         <hr />
@@ -57,6 +57,6 @@ export default class App extends Component {
           ))}
         </ul>
       </div>
-    );
+    )
   }
 }

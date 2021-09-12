@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import SortableTree from '../src';
+import React, { Component } from 'react'
+import SortableTree from '../src'
 // In your own app, you would need to use import styles once in the app
 // import 'react-sortable-tree/styles.css';
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       treeData1: [
@@ -14,14 +14,14 @@ class App extends Component {
       ],
       treeData2: [{ title: 'node3' }, { title: 'node4' }],
       shouldCopyOnOutsideDrop: false,
-    };
+    }
   }
 
   render() {
     // Both trees need to share this same node type in their
     // `dndType` prop
-    const externalNodeType = 'yourNodeType';
-    const { shouldCopyOnOutsideDrop } = this.state;
+    const externalNodeType = 'yourNodeType'
+    const { shouldCopyOnOutsideDrop } = this.state
     return (
       <div>
         <div
@@ -30,11 +30,10 @@ class App extends Component {
             width: 350,
             float: 'left',
             border: 'solid black 1px',
-          }}
-        >
+          }}>
           <SortableTree
             treeData={this.state.treeData1}
-            onChange={treeData1 => this.setState({ treeData1 })}
+            onChange={(treeData1) => this.setState({ treeData1 })}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
           />
@@ -46,11 +45,10 @@ class App extends Component {
             width: 350,
             float: 'left',
             border: 'solid black 1px',
-          }}
-        >
+          }}>
           <SortableTree
             treeData={this.state.treeData2}
-            onChange={treeData2 => this.setState({ treeData2 })}
+            onChange={(treeData2) => this.setState({ treeData2 })}
             dndType={externalNodeType}
             shouldCopyOnOutsideDrop={shouldCopyOnOutsideDrop}
           />
@@ -65,7 +63,7 @@ class App extends Component {
               type="checkbox"
               id="should-copy"
               value={shouldCopyOnOutsideDrop}
-              onChange={event =>
+              onChange={(event) =>
                 this.setState({
                   shouldCopyOnOutsideDrop: event.target.checked,
                 })
@@ -74,8 +72,8 @@ class App extends Component {
           </label>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

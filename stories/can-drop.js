@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import SortableTree from '../src';
+import React, { Component } from 'react'
+import SortableTree from '../src'
 // In your own app, you would need to use import styles once in the app
 // import 'react-sortable-tree/styles.css';
 
 export default class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       treeData: [
@@ -36,26 +36,26 @@ export default class App extends Component {
           subtitle: "Doesn't play with other twin",
         },
       ],
-    };
+    }
   }
 
   render() {
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (prevPath.indexOf('trap') >= 0 && nextPath.indexOf('trap') < 0) {
-        return false;
+        return false
       }
 
       if (node.isTwin && nextParent && nextParent.isTwin) {
-        return false;
+        return false
       }
 
-      const noGrandkidsDepth = nextPath.indexOf('no-grandkids');
+      const noGrandkidsDepth = nextPath.indexOf('no-grandkids')
       if (noGrandkidsDepth >= 0 && nextPath.length - noGrandkidsDepth > 2) {
-        return false;
+        return false
       }
 
-      return true;
-    };
+      return true
+    }
 
     return (
       <div style={{ height: 300 }}>
@@ -64,9 +64,9 @@ export default class App extends Component {
           canDrop={canDrop}
           // Need to set getNodeKey to get meaningful ids in paths
           getNodeKey={({ node }) => node.id}
-          onChange={treeData => this.setState({ treeData })}
+          onChange={(treeData) => this.setState({ treeData })}
         />
       </div>
-    );
+    )
   }
 }

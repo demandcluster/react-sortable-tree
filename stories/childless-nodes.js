@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import SortableTree from '../src';
+import React, { Component } from 'react'
+import SortableTree from '../src'
 // In your own app, you would need to use import styles once in the app
 // import 'react-sortable-tree/styles.css';
 
 export default class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       treeData: [
@@ -42,7 +42,7 @@ export default class App extends Component {
           ],
         },
       ],
-    };
+    }
   }
 
   render() {
@@ -51,11 +51,11 @@ export default class App extends Component {
         <div style={{ height: 300 }}>
           <SortableTree
             treeData={this.state.treeData}
-            canNodeHaveChildren={node => !node.isPerson}
-            onChange={treeData => this.setState({ treeData })}
+            canNodeHaveChildren={(node) => !node.isPerson}
+            onChange={(treeData) => this.setState({ treeData })}
           />
         </div>
       </div>
-    );
+    )
   }
 }
