@@ -3,6 +3,7 @@
   white-space: nowrap;
   position: relative;
   text-align: left;
+  height: 62px;
 }
 
 .rst__node.rst__rtl {

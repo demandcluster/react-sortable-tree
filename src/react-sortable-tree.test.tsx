@@ -9,7 +9,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TestBackend } from 'react-dnd-test-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import renderer from 'react-test-renderer'
-import { List } from 'react-virtualized'
 import DefaultNodeRenderer from './node-renderer-default'
 import SortableTree, {
   SortableTreeWithoutDndContext,
@@ -163,46 +162,6 @@ describe('<SortableTree />', () => {
       'borderWidth',
       42
     )
-  })
-
-  it('should change height according to rowHeight prop', () => {
-    const wrapper = mount(
-      <SortableTree
-        treeData={[{ title: 'a' }, { title: 'b', extraHeight: 2 }]}
-        onChange={() => {}}
-        rowHeight={12}
-      />
-    )
-
-    // Works with static value
-    expect(wrapper.find(TreeNode).first()).toHaveStyle('height', 12)
-
-    // Works with function callback
-    wrapper.setProps({ rowHeight: ({ node }) => 42 + (node.extraHeight || 0) })
-    expect(wrapper.find(TreeNode).first()).toHaveStyle('height', 42)
-    expect(wrapper.find(TreeNode).last()).toHaveStyle('height', 44)
-  })
-
-  it('should toggle virtualization according to isVirtualized prop', () => {
-    const virtualized = mount(
-      <SortableTree
-        treeData={[{ title: 'a' }, { title: 'b' }]}
-        onChange={() => {}}
-        isVirtualized
-      />
-    )
-
-    expect(virtualized.find(List).length).toEqual(1)
-
-    const notVirtualized = mount(
-      <SortableTree
-        treeData={[{ title: 'a' }, { title: 'b' }]}
-        onChange={() => {}}
-        isVirtualized={false}
-      />
-    )
-
-    expect(notVirtualized.find(List).length).toEqual(0)
   })
 
   it('should change scaffold width according to scaffoldBlockPxWidth prop', () => {

@@ -10,9 +10,7 @@ import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 import { DndContext, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { polyfill } from 'react-lifecycles-compat'
-import { AutoSizer, List } from 'react-virtualized'
-import 'react-virtualized/styles.css'
+import { Virtuoso } from 'react-virtuoso'
 import NodeRendererDefault from './node-renderer-default'
 import PlaceholderRendererDefault from './placeholder-renderer-default'
 import './react-sortable-tree.css'
@@ -47,16 +45,11 @@ const mergeTheme = (props) => {
     ...props,
     style: { ...props.theme.style, ...props.style },
     innerStyle: { ...props.theme.innerStyle, ...props.innerStyle },
-    reactVirtualizedListProps: {
-      ...props.theme.reactVirtualizedListProps,
-      ...props.reactVirtualizedListProps,
-    },
   }
 
   const overridableDefaults = {
     nodeContentRenderer: NodeRendererDefault,
     placeholderRenderer: PlaceholderRendererDefault,
-    rowHeight: 62,
     scaffoldBlockPxWidth: 44,
     slideRegionSize: 100,
     treeNodeRenderer: TreeNode,
@@ -80,13 +73,10 @@ class ReactSortableTree extends Component {
   constructor(props) {
     super(props)
 
-    const {
-      dndType,
-      nodeContentRenderer,
-      treeNodeRenderer,
-      isVirtualized,
-      slideRegionSize,
-    } = mergeTheme(props)
+    this.listRef = React.createRef()
+
+    const { dndType, nodeContentRenderer, treeNodeRenderer, slideRegionSize } =
+      mergeTheme(props)
 
     this.dndManager = new DndManager(this)
 
@@ -100,13 +90,13 @@ class ReactSortableTree extends Component {
     this.treeNodeRenderer = this.dndManager.wrapTarget(treeNodeRenderer)
 
     // Prepare scroll-on-drag options for this list
-    if (isVirtualized) {
-      this.scrollZoneVirtualList = (createScrollingComponent || withScrolling)(
-        List
-      )
-      this.vStrength = createVerticalStrength(slideRegionSize)
-      this.hStrength = createHorizontalStrength(slideRegionSize)
-    }
+    this.scrollZoneVirtualList = (createScrollingComponent || withScrolling)(
+      React.forwardRef((props, ref) => (
+        <Virtuoso ref={this.listRef} {...props} />
+      ))
+    )
+    this.vStrength = createVerticalStrength(slideRegionSize)
+    this.hStrength = createHorizontalStrength(slideRegionSize)
 
     this.state = {
       draggingTreeData: null,
@@ -616,12 +606,8 @@ class ReactSortableTree extends Component {
       dragDropManager,
       style,
       className,
-      cssNonce,
       innerStyle,
-      rowHeight,
-      isVirtualized,
       placeholderRenderer,
-      reactVirtualizedListProps,
       getNodeKey,
       rowDirection,
     } = mergeTheme(this.props)
@@ -670,10 +656,12 @@ class ReactSortableTree extends Component {
     })
 
     // Seek to the focused search result if there is one specified
-    const scrollToInfo =
-      searchFocusTreeIndex !== null
-        ? { scrollToIndex: searchFocusTreeIndex }
-        : {}
+    if (searchFocusTreeIndex !== null) {
+      this.listRef.current.scrollToIndex({
+        index: searchFocusTreeIndex,
+        align: 'center',
+      })
+    }
 
     let containerStyle = style
     let list
@@ -685,81 +673,30 @@ class ReactSortableTree extends Component {
           <PlaceholderContent />
         </Placeholder>
       )
-    } else if (isVirtualized) {
+    } else {
       containerStyle = { height: '100%', ...containerStyle }
 
       const ScrollZoneVirtualList = this.scrollZoneVirtualList
-      // Render list with react-virtualized
+      // Render list with react-virtuoso
       list = (
-        <AutoSizer nonce={cssNonce}>
-          {({ height, width }) => (
-            <ScrollZoneVirtualList
-              {...scrollToInfo}
-              dragDropManager={dragDropManager}
-              verticalStrength={this.vStrength}
-              horizontalStrength={this.hStrength}
-              speed={30}
-              scrollToAlignment="start"
-              className="rst__virtualScrollOverride"
-              width={width}
-              onScroll={({ scrollTop }) => {
-                this.scrollTop = scrollTop
-              }}
-              height={height}
-              style={innerStyle}
-              rowCount={rows.length}
-              estimatedRowSize={
-                typeof rowHeight !== 'function' ? rowHeight : undefined
-              }
-              rowHeight={
-                typeof rowHeight !== 'function'
-                  ? rowHeight
-                  : ({ index }) =>
-                      rowHeight({
-                        index,
-                        treeIndex: index,
-                        node: rows[index].node,
-                        path: rows[index].path,
-                      })
-              }
-              rowRenderer={({ index, style: rowStyle }) =>
-                this.renderRow(rows[index], {
-                  listIndex: index,
-                  style: rowStyle,
-                  getPrevRow: () => rows[index - 1] || null,
-                  matchKeys,
-                  swapFrom,
-                  swapDepth: draggedDepth,
-                  swapLength,
-                })
-              }
-              {...reactVirtualizedListProps}
-            />
-          )}
-        </AutoSizer>
-      )
-    } else {
-      // Render list without react-virtualized
-      list = rows.map((row, index) =>
-        this.renderRow(row, {
-          listIndex: index,
-          style: {
-            height:
-              typeof rowHeight !== 'function'
-                ? rowHeight
-                : rowHeight({
-                    index,
-                    treeIndex: index,
-                    node: row.node,
-                    path: row.path,
-                  }),
-          },
-          getPrevRow: () => rows[index - 1] || null,
-          matchKeys,
-          swapFrom,
-          swapDepth: draggedDepth,
-          swapLength,
-        })
+        <ScrollZoneVirtualList
+          data={rows}
+          dragDropManager={dragDropManager}
+          verticalStrength={this.vStrength}
+          horizontalStrength={this.hStrength}
+          className="rst__virtualScrollOverride"
+          style={innerStyle}
+          itemContent={(index) =>
+            this.renderRow(rows[index], {
+              listIndex: index,
+              getPrevRow: () => rows[index - 1] || null,
+              matchKeys,
+              swapFrom,
+              swapDepth: draggedDepth,
+              swapLength,
+            })
+          }
+        />
       )
     }
 
@@ -795,17 +732,8 @@ ReactSortableTree.propTypes = {
   // Style applied to the inner, scrollable container (for padding, etc.)
   innerStyle: PropTypes.shape({}),
 
-  // Used by react-virtualized
-  // Either a fixed row height (number) or a function that returns the
-  // height of a row given its index: `({ index: number }): number`
-  rowHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-
   // Size in px of the region near the edges that initiates scrolling on dragover
   slideRegionSize: PropTypes.number,
-
-  // Custom properties to hand to the react-virtualized list
-  // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
-  reactVirtualizedListProps: PropTypes.shape({}),
 
   // The width of the blocks containing the lines representing the structure of the tree.
   scaffoldBlockPxWidth: PropTypes.number,
@@ -834,13 +762,6 @@ ReactSortableTree.propTypes = {
   // or additional `style` / `className` settings.
   generateNodeProps: PropTypes.func,
 
-  // Set to false to disable virtualization.
-  // NOTE: Auto-scrolling while dragging, and scrolling to the `searchFocusOffset` will be disabled.
-  isVirtualized: PropTypes.bool,
-
-  // Content-Security-Policy nonce to use with inline `<style>` tags in virtualized mode.
-  cssNonce: PropTypes.string,
-
   treeNodeRenderer: PropTypes.func,
 
   // Override the default component for rendering nodes (but keep the scaffolding generator)
@@ -857,10 +778,8 @@ ReactSortableTree.propTypes = {
   theme: PropTypes.shape({
     style: PropTypes.shape({}),
     innerStyle: PropTypes.shape({}),
-    reactVirtualizedListProps: PropTypes.shape({}),
     scaffoldBlockPxWidth: PropTypes.number,
     slideRegionSize: PropTypes.number,
-    rowHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     treeNodeRenderer: PropTypes.func,
     nodeContentRenderer: PropTypes.func,
     placeholderRenderer: PropTypes.func,
@@ -915,20 +834,16 @@ ReactSortableTree.defaultProps = {
   canDrop: null,
   canNodeHaveChildren: () => true,
   className: '',
-  cssNonce: null,
   dndType: null,
   generateNodeProps: null,
   getNodeKey: defaultGetNodeKey,
   innerStyle: {},
-  isVirtualized: true,
   maxDepth: null,
   treeNodeRenderer: null,
   nodeContentRenderer: null,
   onMoveNode: () => {},
   onVisibilityToggle: () => {},
   placeholderRenderer: null,
-  reactVirtualizedListProps: {},
-  rowHeight: null,
   scaffoldBlockPxWidth: null,
   searchFinishCallback: null,
   searchFocusOffset: null,
@@ -942,8 +857,6 @@ ReactSortableTree.defaultProps = {
   onlyExpandSearchedNodes: false,
   rowDirection: 'ltr',
 }
-
-polyfill(ReactSortableTree)
 
 const SortableTreeWithoutDndContext = (props) => (
   <DndContext.Consumer>

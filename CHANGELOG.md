@@ -2,8 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## Next
-* Migrate to TS
+## 4.0.0-beta.1
+* Migrate to TS (partially)
+* Node >= 14
+* Drop IE from support list
+* Replace react-virtualized with react-virtuoso
 * Replace theme package by own theme package
 * Bump deps
 
