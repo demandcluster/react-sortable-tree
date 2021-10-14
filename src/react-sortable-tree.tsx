@@ -22,7 +22,7 @@ import {
   defaultGetNodeKey,
   defaultSearchMethod,
 } from './utils/default-handlers'
-import DndManager from './utils/dnd-manager'
+import { wrapPlaceholder, wrapSource, wrapTarget } from './utils/dnd-manager'
 import { slideRows } from './utils/generic-utils'
 import {
   memoizedGetDescendantCount,
@@ -78,20 +78,26 @@ class ReactSortableTree extends Component {
     const { dndType, nodeContentRenderer, treeNodeRenderer, slideRegionSize } =
       mergeTheme(props)
 
-    this.dndManager = new DndManager(this)
-
     // Wrapping classes for use with react-dnd
     this.treeId = `rst__${treeIdCounter}`
     treeIdCounter += 1
     this.dndType = dndType || this.treeId
-    this.nodeContentRenderer = this.dndManager.wrapSource(nodeContentRenderer)
-    this.treePlaceholderRenderer =
-      this.dndManager.wrapPlaceholder(TreePlaceholder)
-    this.treeNodeRenderer = this.dndManager.wrapTarget(treeNodeRenderer)
+    this.nodeContentRenderer = wrapSource(
+      nodeContentRenderer,
+      this.startDrag,
+      this.endDrag,
+      this.dndType
+    )
+    this.treePlaceholderRenderer = wrapPlaceholder(
+      TreePlaceholder,
+      this.treeId,
+      this.drop,
+      this.dndType
+    )
 
     // Prepare scroll-on-drag options for this list
     this.scrollZoneVirtualList = (createScrollingComponent || withScrolling)(
-      React.forwardRef((props) => {
+      React.forwardRef((props, ref) => {
         const { dragDropManager, ...otherProps } = props
         return <Virtuoso ref={this.listRef} {...otherProps} />
       })
@@ -116,6 +122,20 @@ class ReactSortableTree extends Component {
         searchFocusOffset: null,
       },
     }
+
+    this.treeNodeRenderer = wrapTarget(
+      treeNodeRenderer,
+      this.canNodeHaveChildren,
+      this.treeId,
+      this.props.maxDepth,
+      this.props.canDrop,
+      this.drop,
+      this.dragHover,
+      this.dndType,
+      this.state.draggingTreeData,
+      this.props.treeData,
+      this.props.getNodeKey
+    )
 
     this.toggleChildrenVisibility = this.toggleChildrenVisibility.bind(this)
     this.moveNode = this.moveNode.bind(this)
@@ -351,7 +371,7 @@ class ReactSortableTree extends Component {
     return newState
   }
 
-  startDrag({ path }) {
+  startDrag = ({ path }) => {
     this.setState((prevState) => {
       const {
         treeData: draggingTreeData,
@@ -373,11 +393,11 @@ class ReactSortableTree extends Component {
     })
   }
 
-  dragHover({
+  dragHover = ({
     node: draggedNode,
     depth: draggedDepth,
     minimumTreeIndex: draggedMinimumTreeIndex,
-  }) {
+  }) => {
     // Ignore this hover if it is at the same position as the last hover
     if (
       this.state.draggedDepth === draggedDepth &&
@@ -421,7 +441,7 @@ class ReactSortableTree extends Component {
     })
   }
 
-  endDrag(dropResult) {
+  endDrag = (dropResult) => {
     const { instanceProps } = this.state
 
     const resetTree = () =>
@@ -476,11 +496,11 @@ class ReactSortableTree extends Component {
     }
   }
 
-  drop(dropResult) {
+  drop = (dropResult) => {
     this.moveNode(dropResult)
   }
 
-  canNodeHaveChildren(node) {
+  canNodeHaveChildren = (node) => {
     const { canNodeHaveChildren } = this.props
     if (canNodeHaveChildren) {
       return canNodeHaveChildren(node)
