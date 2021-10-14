@@ -61,7 +61,7 @@ function createESMConfig(input, output) {
     plugins: [
       nodeResolve({ extensions }),
       postcss({ extract: 'style.css' }),
-      getEsbuild('node12'),
+      getEsbuild('node14'),
     ],
   }
 }

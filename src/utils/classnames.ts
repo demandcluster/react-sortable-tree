@@ -8,14 +8,13 @@
 //    active && "class3"
 // ); // returns -> class1 class3";
 //
-export const classnames = (...classes: string[]) => {
-  // Use Boolean constructor as a filter callback
-  // Allows for loose type truthy/falsey checks
-  // Boolean("") === false;
-  // Boolean(false) === false;
-  // Boolean(undefined) === false;
-  // Boolean(null) === false;
-  // Boolean(0) === false;
-  // Boolean("classname") === true;
-  return classes.filter(Boolean).join(' ')
-}
+// Use Boolean constructor as a filter callback
+// Allows for loose type truthy/falsey checks
+// Boolean("") === false;
+// Boolean(false) === false;
+// Boolean(undefined) === false;
+// Boolean(null) === false;
+// Boolean(0) === false;
+// Boolean("classname") === true;
+export const classnames = (...classes: string[]) =>
+  classes.filter(Boolean).join(' ')
