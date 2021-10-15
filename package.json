@@ -1,6 +1,6 @@
 {
   "name": "@nosferatu500/react-sortable-tree",
-  "version": "4.0.0-beta.4",
+  "version": "4.0.0-beta.7",
   "description": "Drag-and-drop sortable component for nested data and hierarchies",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -121,7 +121,7 @@
     ]
   },
   "dependencies": {
-    "@nosferatu500/react-dnd-scrollzone": "^2.0.2",
+    "@nosferatu500/react-dnd-scrollzone": "^2.0.4",
     "lodash.isequal": "^4.5.0",
     "prop-types": "^15.7.2",
     "react-dnd": "^14.0.4",
@@ -135,6 +135,7 @@
     "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@babel/preset-env": "^7.15.8",
     "@babel/types": "^7.15.6",
+    "@nosferatu500/theme-file-explorer": "^3.0.10",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@rollup/plugin-typescript": "^8.2.5",
@@ -147,7 +148,7 @@
     "@types/enzyme": "^3.10.9",
     "@types/jest": "^27.0.2",
     "@types/lodash.isequal": "^4.5.5",
-    "@types/react": "^17.0.29",
+    "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
@@ -161,7 +162,7 @@
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jest": "^25.0.6",
+    "eslint-plugin-jest": "^25.2.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "jest": "^27.2.5",
@@ -179,7 +180,7 @@
     "rollup-plugin-esbuild": "^4.5.0",
     "rollup-plugin-postcss": "^4.0.1",
     "shx": "^0.3.3",
-    "ts-jest": "^27.0.5",
+    "ts-jest": "^27.0.6",
     "tslib": "^2.3.1",
     "typescript": "^4.4.4"
   },

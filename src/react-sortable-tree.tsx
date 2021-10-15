@@ -890,7 +890,7 @@ const SortableTreeWithoutDndContext = (props) => (
 )
 
 const SortableTree = (props) => (
-  <DndProvider backend={HTML5Backend}>
+  <DndProvider debugMode={props.debugMode} backend={HTML5Backend}>
     <SortableTreeWithoutDndContext {...props} />
   </DndProvider>
 )
