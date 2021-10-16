@@ -3,7 +3,6 @@
 
 import React, { Component } from 'react'
 import { mount } from 'enzyme'
-import PropTypes from 'prop-types'
 import { DndContext, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TestBackend } from 'react-dnd-test-backend'
@@ -215,7 +214,7 @@ describe('<SortableTree />', () => {
       }
     }
     FakeNode.propTypes = {
-      node: PropTypes.shape({ title: PropTypes.string }).isRequired,
+      node: { title: string },
     }
 
     const wrapper = mount(

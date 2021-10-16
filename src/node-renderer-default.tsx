@@ -48,8 +48,8 @@ export interface NodeRendererProps {
   connectDragPreview: ConnectDragPreview
   connectDragSource: ConnectDragSource
   parentNode?: TreeItem | undefined
-  startDrag: any
-  endDrag: any
+  startDrag: ({ path }: { path: number[] }) => void
+  endDrag: (dropResult: unknown) => void
   isDragging: boolean
   didDrop: boolean
   draggedNode?: TreeItem | undefined
@@ -122,9 +122,9 @@ const NodeRendererDefault: React.FC<NodeRendererProps> = (props) => {
   const isDraggedDescendant = draggedNode && isDescendant(draggedNode, node)
   const isLandingPadActive = !didDrop && isDragging
 
-  let buttonStyle: any = { left: -0.5 * scaffoldBlockPxWidth }
+  let buttonStyle = { left: -0.5 * scaffoldBlockPxWidth, right: 0 }
   if (rowDirection === 'rtl') {
-    buttonStyle = { right: -0.5 * scaffoldBlockPxWidth }
+    buttonStyle = { right: -0.5 * scaffoldBlockPxWidth, left: 0 }
   }
 
   return (

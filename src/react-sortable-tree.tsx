@@ -7,7 +7,6 @@ import withScrolling, {
   createVerticalStrength,
 } from '@nosferatu500/react-dnd-scrollzone'
 import isEqual from 'lodash.isequal'
-import PropTypes from 'prop-types'
 import { DndContext, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Virtuoso } from 'react-virtuoso'
@@ -731,10 +730,70 @@ class ReactSortableTree extends Component {
   }
 }
 
-ReactSortableTree.propTypes = {
-  dragDropManager: PropTypes.shape({
-    getMonitor: PropTypes.func,
-  }).isRequired,
+type SearchParams = {
+  node: any
+  path: number[]
+  treeIndex: number
+  searchQuery: string
+}
+
+type SearchFinishCallbackParams = {
+  node: any
+  path: number[]
+  treeIndex: number
+}[]
+
+type GenerateNodePropsParams = {
+  node: any
+  path: number[]
+  treeIndex: number
+  lowerSiblingCounts: number[]
+  isSearchMatch: boolean
+  isSearchFocus: boolean
+}
+
+type ShouldCopyOnOutsideDropParams = {
+  node: any
+  prevPath: number[]
+  prevTreeIndex: number
+}
+
+type OnMoveNodeParams = {
+  treeData: any[]
+  node: any
+  nextParentNode: any
+  prevPath: number[]
+  prevTreeIndex: number
+  nextPath: number[]
+  nextTreeIndex: number
+}
+
+type CanDropParams = {
+  node: any
+  prevPath: number[]
+  prevParent: any
+  prevTreeIndex: number
+  nextPath: number[]
+  nextParent: any
+  nextTreeIndex: number
+}
+
+type OnVisibilityToggleParams = {
+  treeData: any[]
+  node: any
+  expanded: boolean
+  path: number[]
+}
+
+type OnDragStateChangedParams = {
+  isDragging: boolean
+  draggedNode: any
+}
+
+type ReactSortableTreeProps = {
+  dragDropManager?: {
+    getMonitor: () => unknown
+  }
 
   // Tree data in the following format:
   // [{title: 'main', subtitle: 'sub'}, { title: 'value2', expanded: true, children: [{ title: 'value3') }] }]
@@ -742,112 +801,111 @@ ReactSortableTree.propTypes = {
   // `subtitle` is a secondary label for the node
   // `expanded` shows children of the node if true, or hides them if false. Defaults to false.
   // `children` is an array of child nodes belonging to the node.
-  treeData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  treeData: any[]
 
   // Style applied to the container wrapping the tree (style defaults to {height: '100%'})
-  style: PropTypes.shape({}),
+  style?: any
 
   // Class name for the container wrapping the tree
-  className: PropTypes.string,
+  className?: string
 
   // Style applied to the inner, scrollable container (for padding, etc.)
-  innerStyle: PropTypes.shape({}),
+  innerStyle?: any
 
   // Size in px of the region near the edges that initiates scrolling on dragover
-  slideRegionSize: PropTypes.number,
+  slideRegionSize?: number
 
   // The width of the blocks containing the lines representing the structure of the tree.
-  scaffoldBlockPxWidth: PropTypes.number,
+  scaffoldBlockPxWidth?: number
 
   // Maximum depth nodes can be inserted at. Defaults to infinite.
-  maxDepth: PropTypes.number,
+  maxDepth?: number
 
   // The method used to search nodes.
   // Defaults to a function that uses the `searchQuery` string to search for nodes with
   // matching `title` or `subtitle` values.
   // NOTE: Changing `searchMethod` will not update the search, but changing the `searchQuery` will.
-  searchMethod: PropTypes.func,
+  searchMethod?: (params: SearchParams) => boolean
 
   // Used by the `searchMethod` to highlight and scroll to matched nodes.
   // Should be a string for the default `searchMethod`, but can be anything when using a custom search.
-  searchQuery: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+  searchQuery?: string // eslint-disable-line react/forbid-prop-types
 
   // Outline the <`searchFocusOffset`>th node and scroll to it.
-  searchFocusOffset: PropTypes.number,
+  searchFocusOffset?: number
 
   // Get the nodes that match the search criteria. Used for counting total matches, etc.
-  searchFinishCallback: PropTypes.func,
+  searchFinishCallback?: (params: SearchFinishCallbackParams) => void
 
   // Generate an object with additional props to be passed to the node renderer.
   // Use this for adding buttons via the `buttons` key,
   // or additional `style` / `className` settings.
-  generateNodeProps: PropTypes.func,
+  generateNodeProps?: (params: GenerateNodePropsParams) => any
 
-  treeNodeRenderer: PropTypes.func,
+  treeNodeRenderer?: any
 
   // Override the default component for rendering nodes (but keep the scaffolding generator)
   // This is an advanced option for complete customization of the appearance.
   // It is best to copy the component in `node-renderer-default.js` to use as a base, and customize as needed.
-  nodeContentRenderer: PropTypes.func,
+  nodeContentRenderer?: any
 
   // Override the default component for rendering an empty tree
   // This is an advanced option for complete customization of the appearance.
   // It is best to copy the component in `placeholder-renderer-default.js` to use as a base,
   // and customize as needed.
-  placeholderRenderer: PropTypes.func,
+  placeholderRenderer?: any
 
-  theme: PropTypes.shape({
-    style: PropTypes.shape({}),
-    innerStyle: PropTypes.shape({}),
-    scaffoldBlockPxWidth: PropTypes.number,
-    slideRegionSize: PropTypes.number,
-    treeNodeRenderer: PropTypes.func,
-    nodeContentRenderer: PropTypes.func,
-    placeholderRenderer: PropTypes.func,
-  }),
+  theme?: {
+    style: any
+    innerStyle: any
+    scaffoldBlockPxWidth: number
+    slideRegionSize: number
+    treeNodeRenderer: any
+    nodeContentRenderer: any
+    placeholderRenderer: any
+  }
 
   // Determine the unique key used to identify each node and
   // generate the `path` array passed in callbacks.
   // By default, returns the index in the tree (omitting hidden nodes).
-  getNodeKey: PropTypes.func,
+  getNodeKey?: (node) => string
 
   // Called whenever tree data changed.
   // Just like with React input elements, you have to update your
   // own component's data to see the changes reflected.
-  onChange: PropTypes.func.isRequired,
+  onChange: (treeData) => void
 
   // Called after node move operation.
-  onMoveNode: PropTypes.func,
+  onMoveNode?: (params: OnMoveNodeParams) => void
 
   // Determine whether a node can be dragged. Set to false to disable dragging on all nodes.
-  canDrag: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+  canDrag?: (params: GenerateNodePropsParams) => boolean
 
   // Determine whether a node can be dropped based on its path and parents'.
-  canDrop: PropTypes.func,
+  canDrop?: (params: CanDropParams) => boolean
 
   // Determine whether a node can have children
-  canNodeHaveChildren: PropTypes.func,
+  canNodeHaveChildren?: (node) => boolean
 
   // When true, or a callback returning true, dropping nodes to react-dnd
   // drop targets outside of this tree will not remove them from this tree
-  shouldCopyOnOutsideDrop: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.bool,
-  ]),
+  shouldCopyOnOutsideDrop?: (params: ShouldCopyOnOutsideDropParams) => boolean
 
   // Called after children nodes collapsed or expanded.
-  onVisibilityToggle: PropTypes.func,
+  onVisibilityToggle?: (params: OnVisibilityToggleParams) => void
 
-  dndType: PropTypes.string,
+  dndType?: string
 
   // Called to track between dropped and dragging
-  onDragStateChanged: PropTypes.func,
+  onDragStateChanged?: (params: OnDragStateChangedParams) => void
 
   // Specify that nodes that do not match search will be collapsed
-  onlyExpandSearchedNodes: PropTypes.bool,
+  onlyExpandSearchedNodes?: boolean
 
   // rtl support
-  rowDirection: PropTypes.string,
+  rowDirection?: string
+
+  debugMode?: boolean
 }
 
 ReactSortableTree.defaultProps = {
@@ -877,9 +935,10 @@ ReactSortableTree.defaultProps = {
   onDragStateChanged: () => {},
   onlyExpandSearchedNodes: false,
   rowDirection: 'ltr',
+  debugMode: false,
 }
 
-const SortableTreeWithoutDndContext = (props) => (
+const SortableTreeWithoutDndContext = (props: ReactSortableTreeProps) => (
   <DndContext.Consumer>
     {({ dragDropManager }) =>
       dragDropManager === undefined ? null : (
@@ -889,7 +948,7 @@ const SortableTreeWithoutDndContext = (props) => (
   </DndContext.Consumer>
 )
 
-const SortableTree = (props) => (
+const SortableTree = (props: ReactSortableTreeProps) => (
   <DndProvider debugMode={props.debugMode} backend={HTML5Backend}>
     <SortableTreeWithoutDndContext {...props} />
   </DndProvider>
