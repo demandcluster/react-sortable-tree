@@ -38,6 +38,6 @@ stages:
       targetKey: GH_TOKEN
     - sourceName: cicd
       sourceKey: NPM_PASS
-      targetKey: NPM_PASSWORD
+      targetKey: NPM_PASS
 timeout: 60
 notification: {}
