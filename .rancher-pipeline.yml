@@ -1,41 +1,15 @@
 stages:
-- name: Install
+- name: Install & Build
   steps:
   - runScriptConfig:
       image: node:latest
-      shellScript: npm install -g npm-cli-login && npm set registry https://npm.demandcluster.com && npm-cli-login --quotes && yarn && yarn prebuild && yarn build && yarn postbuild
+      shellScript: npm install -g npm-cli-login && npm set registry https://npm.demandcluster.com && npm-cli-login --quotes && yarn && yarn prebuild && yarn build && yarn postbuild && yarn publish:release
     env:
       HOME: .
       NPM_EMAIL: devops@demandcluster.com
       NPM_REGISTRY: https://npm.demandcluster.com
       NPM_USER: demandcluster
     envFrom:
-    - sourceName: cicd
-      sourceKey: NPM_PASS
-      targetKey: NPM_PASS
-- name: Lint
-  steps:
-  - runScriptConfig:
-      image: node:latest
-      shellScript: yarn lint
-    env:
-      HOME: /home/jenkins
-      NPM_CONFIG_CACHE: /home/jenkins/.npm
-- name: Release
-  steps:
-  - runScriptConfig:
-      image: node:latest
-      shellScript: chown 1000:1000 /home/jenkins -R && npm install -g npm-cli-login && npm set registry https://npm.demandcluster.com && cd dist && npm-cli-login --quotes && cd .. && yarn publish:release
-    env:
-      HOME: /home/jenkins
-      NPM_CONFIG_CACHE: /home/jenkins/.npm
-      NPM_EMAIL: devops@demandcluster.com
-      NPM_REGISTRY: https://npm.demandcluster.com
-      NPM_USER: demandcluster
-    envFrom:
-    - sourceName: cicd
-      sourceKey: DEVOPS_TOKEN
-      targetKey: GH_TOKEN
     - sourceName: cicd
       sourceKey: NPM_PASS
       targetKey: NPM_PASS
