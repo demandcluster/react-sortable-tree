@@ -25,7 +25,7 @@ stages:
   steps:
   - runScriptConfig:
       image: node:latest
-      shellScript: chown 1000:1000 /home/jenkins -R && npm set registry https://npm.demandcluster.com && npm-cli-login --quotes && yarn publish:release
+      shellScript: chown 1000:1000 /home/jenkins -R && npm install -g npm-cli-login && npm set registry https://npm.demandcluster.com && npm-cli-login --quotes && yarn publish:release
     env:
       HOME: /home/jenkins
       NPM_CONFIG_CACHE: /home/jenkins/.npm
