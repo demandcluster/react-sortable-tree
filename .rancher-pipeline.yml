@@ -31,7 +31,7 @@ stages:
       NPM_CONFIG_CACHE: /home/jenkins/.npm
       NPM_EMAIL: devops@demandcluster.com
       NPM_REGISTRY: https://npm.demandcluster.com
-      NPM_USERNAME: demandcluster
+      NPM_USER: demandcluster
     envFrom:
     - sourceName: cicd
       sourceKey: DEVOPS_TOKEN
