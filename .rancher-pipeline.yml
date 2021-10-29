@@ -1,0 +1,43 @@
+stages:
+- name: Install
+  steps:
+  - runScriptConfig:
+      image: node:latest
+      shellScript: npm install -g npm-cli-login && npm-cli-login --quotes && npm set registry https://npm.demandcluster.com && npm install
+    env:
+      HOME: .
+      NPM_EMAIL: devops@demandcluster.com
+      NPM_REGISTRY: https://npm.demandcluster.com
+      NPM_USER: demandcluster
+    envFrom:
+    - sourceName: cicd
+      sourceKey: NPM_PASS
+      targetKey: NPM_PASS
+- name: Lint
+  steps:
+  - runScriptConfig:
+      image: node:latest
+      shellScript: npm run lint
+    env:
+      HOME: /home/jenkins
+      NPM_CONFIG_CACHE: /home/jenkins/.npm
+- name: Release
+  steps:
+  - runScriptConfig:
+      image: node:latest
+      shellScript: chown 1000:1000 /home/jenkins -R && npm set registry https://npm.demandcluster.com && npx semantic-release --no-ci
+    env:
+      HOME: /home/jenkins
+      NPM_CONFIG_CACHE: /home/jenkins/.npm
+      NPM_EMAIL: devops@demandcluster.com
+      NPM_REGISTRY: https://npm.demandcluster.com
+      NPM_USERNAME: demandcluster
+    envFrom:
+    - sourceName: cicd
+      sourceKey: DEVOPS_TOKEN
+      targetKey: GH_TOKEN
+    - sourceName: cicd
+      sourceKey: NPM_PASS
+      targetKey: NPM_PASSWORD
+timeout: 60
+notification: {}
