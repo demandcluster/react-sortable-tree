@@ -3,7 +3,7 @@ stages:
   steps:
   - runScriptConfig:
       image: node:latest
-      shellScript: npm install -g npm-cli-login && npm-cli-login --quotes && npm set registry https://npm.demandcluster.com && yarn && yarn prebuild && yarn build && yarn postbuild
+      shellScript: npm install -g npm-cli-login && npm set registry https://npm.demandcluster.com && npm-cli-login --quotes && yarn && yarn prebuild && yarn build && yarn postbuild
     env:
       HOME: .
       NPM_EMAIL: devops@demandcluster.com
@@ -25,7 +25,7 @@ stages:
   steps:
   - runScriptConfig:
       image: node:latest
-      shellScript: chown 1000:1000 /home/jenkins -R && npm set registry https://npm.demandcluster.com && yarn publish:release
+      shellScript: chown 1000:1000 /home/jenkins -R && npm set registry https://npm.demandcluster.com && npm-cli-login --quotes && yarn publish:release
     env:
       HOME: /home/jenkins
       NPM_CONFIG_CACHE: /home/jenkins/.npm
